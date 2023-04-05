@@ -1,4 +1,5 @@
 const express = require('express')
+const Budget = require('../models/budget') //=======================
 
 // This creates an instance of the Router
 const router = express.Router()
@@ -13,7 +14,14 @@ router.get('/:id', (req, res) => {              // addding a : in the path means
     res.json({mssg: 'GET a single workout'})    // depending on what the user is looking for
 })
 // POST a new workout
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+    const {title, withdraw, deposit} = req.body
+    try{
+        const bugdet = await Budget.create({title, withdraw, deposit})
+        res.status(200).json(workout)
+    } catch (error){
+        res.status(400).json({error: error.message})
+    }
     res.json({mssg: "POST a new workout"})
 })
 // DELETE a new workout

@@ -5,7 +5,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 //express app
 const app = express()
-const workoutRoutes = require('./routes/workouts') // This is how you link your route
+const workoutRoutes = require('./routes/workouts.js') // This is how you link your route
                                                    // Don't need to add extension(figured out automaticaly)
 
 
