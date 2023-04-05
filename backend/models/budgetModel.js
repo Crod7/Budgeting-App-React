@@ -6,7 +6,6 @@ const budgetSchema = new Schema({
     title: {                        //Should have a title property, this is a parameter
         type: String,               //should be a string, enforces this schema
         required: true              //the title cannot be null
-
     },
     withdraw:  {
         type: Number,
@@ -18,4 +17,4 @@ const budgetSchema = new Schema({
     }
 }, { timestamps: true})
 
-module.exports = mongoose.model('budget', budgetSchema)
+module.exports = mongoose.model('Budget', budgetSchema)
