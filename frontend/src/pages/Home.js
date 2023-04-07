@@ -4,6 +4,10 @@ import { useEffect, useState } from "react"
 
 // Components 
 import BudgetDetails from '../components/BudgetDetails'
+import BudgetForm from '../components/BudgetForm'
+
+
+
 
 const Home = () => {
     const[budgets, setBudgets] = useState(null)
@@ -37,6 +41,7 @@ const Home = () => {
                 
                 ))}
             </div>
+            <BudgetForm />
         </div>
     )
 }
