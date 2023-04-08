@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-
+import { useEffect } from "react"
+import { useBudgetsContext } from "../hooks/useBudgetContext"
 
 
 // Components 
@@ -10,7 +10,7 @@ import BudgetForm from '../components/BudgetForm'
 
 
 const Home = () => {
-    const[budgets, setBudgets] = useState(null)
+    const {budgets, dispatch} = useBudgetsContext()
 
     useEffect(() => {
         const fetchBudgets = async () =>{
@@ -19,8 +19,8 @@ const Home = () => {
                                                          // BACKEND folder, we can connect them together.
             const json = await response.json()
             
-            if  (response.ok){
-                setBudgets(json)
+            if (response.ok){
+                dispatch({type: 'SET_BUDGETS', payload: json})
             }
         }
         fetchBudgets()

@@ -1,6 +1,12 @@
 import { useState } from "react"
+import { useBudgetsContext } from "../hooks/useBudgetContext"
+
+
 
 const BudgetForm = () => {
+
+    const { dispatch } = useBudgetsContext()
+
 
     const [title, setTitle] = useState('')
     const [withdraw, setWithdraw] = useState('')
@@ -32,7 +38,8 @@ const BudgetForm = () => {
             setWithdraw('')
             setDeposit('')
 
-            console.log('new transaction added')
+            console.log('new transaction added', json)
+            dispatch({type: 'CREATE_BUDGET', payload: json})
         }
     }
 
