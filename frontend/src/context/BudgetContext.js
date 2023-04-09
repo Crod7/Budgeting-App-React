@@ -12,6 +12,10 @@ export const budgetsReducer = (state, action) => {
             return {
                 budgets: [action.payload, ...state.budgets]
             }
+        case 'DELETE_BUDGET':
+            return {
+                budgets: state.budgets.filter((transaction) => transaction._id !== action.payload._id)
+            }
         default:
             return state
     }
