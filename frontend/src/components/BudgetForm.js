@@ -1,3 +1,6 @@
+// stoped at video 13 at 4:50
+
+
 import { useState } from "react"
 import { useBudgetsContext } from "../hooks/useBudgetContext"
 
@@ -13,6 +16,7 @@ const BudgetForm = () => {
     const [deposit, setDeposit] = useState('')
 
     const [error, setError] = useState(null)
+    const [emptyFields, setEmptyFields] = useState([])
 
     
     const handleTransactionSubmit = async (e) =>{
@@ -31,12 +35,14 @@ const BudgetForm = () => {
 
         if (!response.ok) {
             setError(json.error)
+            setEmptyFields(json.emptyFields)
         }
         if (response.ok) {
             setError(null)
             setTitle('')
             setWithdraw('')
             setDeposit('')
+            setEmptyFields([])
 
             console.log('new transaction added', json)
             dispatch({type: 'CREATE_BUDGET', payload: json})
@@ -52,6 +58,8 @@ const BudgetForm = () => {
                 type='text'
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
+                // This is the styling of the error message
+                className={emptyFields.includes('title') ? 'error' : ''}
             />
             
             <label>Amount:</label>
@@ -59,6 +67,8 @@ const BudgetForm = () => {
                 type='number'
                 onChange={(e) => setWithdraw(e.target.value)}
                 value={withdraw}
+                // This is the styling of the error message
+                className={emptyFields.includes('withdraw') ? 'error' : ''}
             />
 
             <label>Deposit Amount:</label>
@@ -66,6 +76,8 @@ const BudgetForm = () => {
                 type='number'
                 onChange={(e) => setDeposit(e.target.value)}
                 value={deposit}
+                // This is the styling of the error message
+                className={emptyFields.includes('deposit') ? 'error' : ''}
             />
 
             <button>Add</button>

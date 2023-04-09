@@ -40,6 +40,28 @@ const getBudget = async (req, res) => {
 // create a new budget
 const createBudget = async(req, res) => {
     const {title, withdraw, deposit} = req.body                         //What this request will have as parameters
+
+    // error handling messages on the form
+    let emptyFields = []
+
+    if(!title){
+        emptyFields.push('title')
+    }
+    if(!withdraw){
+        emptyFields.push('withdraw')
+    }
+    if(!deposit){
+        emptyFields.push('deposit')
+    }
+    if(emptyFields.length > 0){
+        return res.status(400).json ({error: 'Please fill in all the fields', emptyFields})
+    }
+
+
+
+
+
+    // add doc to DB
     try{                                        
         const budget = await Budget.create({title, withdraw, deposit})
         res.status(200).json(budget)
