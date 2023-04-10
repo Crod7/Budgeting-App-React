@@ -24,7 +24,7 @@ const Home = () => {
             }
         }
         fetchBudgets()
-    }, [])
+    }, [dispatch])
 
 
 

@@ -5,8 +5,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 //express app
 const app = express()
-const budgetRoutes = require('./routes/budgets.js') // This is how you link your route
+const budgetRoutes = require('./routes/budgets.js')// This is how you link your route
                                                    // Don't need to add extension(figured out automaticaly)
+const userRoutes = require('./routes/user.js')
 
 
 //middleware
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use('/api/budgets', budgetRoutes) // (path, route object)
+app.use('/api/user', userRoutes) // (path, route object)
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI)

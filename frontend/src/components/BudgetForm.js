@@ -14,7 +14,6 @@ const BudgetForm = () => {
     const [title, setTitle] = useState('')
     const [withdraw, setWithdraw] = useState('')
     const [deposit, setDeposit] = useState('')
-
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
 
@@ -33,10 +32,12 @@ const BudgetForm = () => {
         })
         const json = await response.json()
 
+        // If the entry is invalid we display an error message
         if (!response.ok) {
             setError(json.error)
             setEmptyFields(json.emptyFields)
         }
+        // If th entry is valid we clear all the text fields and error messages
         if (response.ok) {
             setError(null)
             setTitle('')
