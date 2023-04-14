@@ -24,7 +24,7 @@ export const AuthContextProvider = ({children}) => {
     
     return (
         <AuthContext.Provider vsslue = {{...state, dispatch}}>
-            {childern}
+            {children}
         </AuthContext.Provider>
     )
 }
