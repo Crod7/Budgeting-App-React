@@ -20,7 +20,7 @@ export const AuthContextProvider = ({children}) => {
         user: null                  // When a user loads up the website they are not logged in by default
     })
 
-    console.log('AuthContext state', state)
+    //console.log('AuthContext state', state)
     
     return (
         <AuthContext.Provider value = {{...state, dispatch}}>

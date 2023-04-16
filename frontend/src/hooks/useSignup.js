@@ -23,6 +23,7 @@ export const useSignup = () => {
         }
         if (response.ok) {
             // Save the user to local storage(This is the json web token with the email)
+            // This allows the user to remain logged in, even if they close the page
             localStorage.setItem('user', JSON.stringify(json))
             
             // Update the Auth Context
