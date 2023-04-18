@@ -1,30 +1,32 @@
 import { useEffect } from "react"
 import { useBudgetsContext } from "../hooks/useBudgetContext"
-
+import { useAuthContext } from "../hooks/useAuthContext"
 
 // Components 
 import BudgetDetails from '../components/BudgetDetails'
 import BudgetForm from '../components/BudgetForm'
 
-
-
-
 const Home = () => {
     const {budgets, dispatch} = useBudgetsContext()
+    const {user} = useAuthContext()
 
     useEffect(() => {
-        const fetchBudgets = async () =>{
-            const response = await fetch('/api/budgets') // By changing the package.json proxy parameter
-                                                         // in the FRONTEND folder to the localhost of the
-                                                         // BACKEND folder, we can connect them together.
+        const fetchBudgets = async () => {
+            const response = await fetch('/api/budgets', {
+                headers: {'Authorization': `Bearer ${user.token}`},
+            })                                          // By changing the package.json proxy parameter
+                                                        // in the FRONTEND folder to the localhost of the
+                                                        // BACKEND folder, we can connect them together.
             const json = await response.json()
             
             if (response.ok){
                 dispatch({type: 'SET_BUDGETS', payload: json})
             }
         }
-        fetchBudgets()
-    }, [dispatch])
+        if (user){
+            fetchBudgets()
+        }
+    }, [dispatch, user])
 
 
 
