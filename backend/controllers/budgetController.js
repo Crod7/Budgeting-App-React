@@ -7,8 +7,11 @@ const mongoose = require('mongoose')
 
 // get all budgets
 const getAllBudgets = async (req, res) => {
+    // The user_id will require that only the data linked to the user_id will be fetched
+    const user_id = req.user._id
+
     // inside .find we search for a certain value(.find({withdraw: 20})), but leaving it blank returns all.
-    const budgets = await Budget.find({}).sort({createdAt: -1}) //-1 will return the newest dates on top
+    const budgets = await Budget.find({ user_id }).sort({createdAt: -1}) //-1 will return the newest dates on top
                                                                 // and have the oldest dates at the bottom
 
     res.status(200).json(budgets)                               // Will return the budgets found
@@ -61,9 +64,10 @@ const createBudget = async(req, res) => {
 
 
 
-    // add doc to DB
-    try{                                        
-        const budget = await Budget.create({title, withdraw, deposit})
+    // add data to database, this is where we add directly to the database
+    try{
+        const user_id = req.user._id                                        
+        const budget = await Budget.create({title, withdraw, deposit, user_id})
         res.status(200).json(budget)
     } catch (error){
         res.status(400).json({error: error.message})

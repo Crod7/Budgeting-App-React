@@ -14,6 +14,10 @@ const budgetSchema = new Schema({
     deposit:  {
         type: Number,
         required: true
+    },
+    user_id: {
+        type: String,
+        requried: true
     }
 }, { timestamps: true})
 
