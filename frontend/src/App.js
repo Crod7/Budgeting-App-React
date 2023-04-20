@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import Navbar from './components/Navbar'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
+import Setup from './pages/Setup'
 
 
 
@@ -33,6 +34,10 @@ const {user} = useAuthContext()
               <Route 
                 path="/signup"
                 element={!user ? <Signup />: <Navigate to ="/"/>}    //Redirects the user depending on login status
+              />
+              <Route 
+                path="/setup"
+                element={<Setup />}    //Redirects the user to Monthly Bills Set Up Page.
               />
             </Routes>
           </div>

@@ -21,24 +21,28 @@ const Signup = () => {
             <label>First Name:</label>
             <input
                 type='text'
+                placeholder="Carlos"
                 onChange={(e) => setFirstName(e.target.value)}
                 value={firstName}
             />
             <label>Last Name:</label>
             <input
                 type='text'
+                placeholder="Rodriguez"
                 onChange={(e) => setLastName(e.target.value)}
                 value={lastName}
             />
             <label>Email:</label>
             <input
                 type='email'
+                placeholder="Carlos@email.com"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
             />
             <label>Password:</label>
             <input
                 type='password'
+                placeholder="Carlos123!"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
             />
