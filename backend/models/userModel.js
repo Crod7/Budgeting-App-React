@@ -9,6 +9,14 @@ const Schema = mongoose.Schema
 
 // The user schema requires an email and password to make.
 const userSchema = new Schema({
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
     email: {
         type: String,
         required: true,
@@ -21,9 +29,9 @@ const userSchema = new Schema({
 })
 
 // Static signup method: the user will use this to sign up.
-userSchema.statics.signup = async function(email, password) {      // How to create an addtional method on a static model
+userSchema.statics.signup = async function(firstName, lastName, email, password) {      // How to create an addtional method on a static model
     
-    if (!email || !password){                                      // Catches an error if fields left blank
+    if (!email || !password || !firstName || !lastName){                                      // Catches an error if fields left blank
         throw Error('All fields must be filled')
     }
     if (!validator.isEmail(email)){                                // Checks to see if email is valid
@@ -42,7 +50,7 @@ userSchema.statics.signup = async function(email, password) {      // How to cre
     const salt = await bcrypt.genSalt(10)                          // Generates a salt to be added at the end of every password
     const hash = await bcrypt.hash(password, salt)                 // Will hash the user's unique password
 
-    const user = await this.create({email, password: hash})        // This will create the user with their unique email and password
+    const user = await this.create({firstName, lastName, email, password: hash})        // This will create the user with their unique email and password
 
     return user                                                    // Returns the user to the source that called this method
 
@@ -51,7 +59,7 @@ userSchema.statics.signup = async function(email, password) {      // How to cre
 
 }
 //static login method
-userSchema.statics.login = async function(email, password){
+userSchema.statics.login = async function( email, password){
     if (!email || !password){                                      // Catches an error if fields left blank
         throw Error('All fields must be filled')
     }
