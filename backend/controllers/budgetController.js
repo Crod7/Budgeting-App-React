@@ -9,6 +9,7 @@ const mongoose = require('mongoose')
 const getAllBudgets = async (req, res) => {
     // The user_id will require that only the data linked to the user_id will be fetched
     const user_id = req.user._id
+    
 
     // inside .find we search for a certain value(.find({withdraw: 20})), but leaving it blank returns all.
     const budgets = await Budget.find({ user_id }).sort({createdAt: -1}) //-1 will return the newest dates on top

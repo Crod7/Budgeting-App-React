@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
 
+// This imports the active user if logged in, along with all their data(firstName, email, budget, etc...)
 
 const Navbar = () => {
     const { logout } = useLogout()

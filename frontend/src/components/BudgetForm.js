@@ -10,7 +10,6 @@ const BudgetForm = () => {
     const [withdraw, setWithdraw] = useState('')
     const [deposit, setDeposit] = useState('')
     const [error, setError] = useState(null)
-    const [emptyFields, setEmptyFields] = useState([])
 
     const handleTransactionSubmit = async (e) =>{
         e.preventDefault()
@@ -34,14 +33,12 @@ const BudgetForm = () => {
         // If the entry is invalid we display an error message
         if (!response.ok) {
             setError(json.error)
-            setEmptyFields(json.emptyFields)
         }
         if (response.ok) {                      // If th entry is valid we clear all the text fields and error messages
             setTitle('')
             setWithdraw('')
             setDeposit('')
             setError(null)
-            setEmptyFields([])
             dispatch({type: 'CREATE_BUDGET', payload: json})
         }
     }

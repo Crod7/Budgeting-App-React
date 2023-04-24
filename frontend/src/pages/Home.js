@@ -6,6 +6,8 @@ import { useAuthContext } from "../hooks/useAuthContext"
 import BudgetDetails from '../components/BudgetDetails'
 import BudgetForm from '../components/BudgetForm'
 
+let activeUser
+
 const Home = () => {
     const {budgets, dispatch} = useBudgetsContext()
     const {user} = useAuthContext()
@@ -23,8 +25,33 @@ const Home = () => {
                 dispatch({type: 'SET_BUDGETS', payload: json})
             }
         }
+        //============================================
+
+        const fetchUsers = async () => {
+            const response = await fetch(`/api/user/${user.email}`, {
+                headers: {'Authorization': `Bearer ${user.token}`},
+            })                                          // By changing the package.json proxy parameter
+                                                        // in the FRONTEND folder to the localhost of the
+                                                        // BACKEND folder, we can connect them together.
+            const json = await response.json()
+            if (response.ok){
+                for (let i = 0; i < json.length; i++){
+                    console.log(json[i])
+                    if (user.email === json[i].email){
+                        activeUser = json[i]
+                        console.log(activeUser.firstName)
+
+
+                    }
+                }
+            }
+        }
+        //============================================
+
+        
         if (user){
             fetchBudgets()
+            fetchUsers()
         }
     }, [dispatch, user])
 
