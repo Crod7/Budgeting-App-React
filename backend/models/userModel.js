@@ -25,6 +25,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    // This is the total money left in the user's account
+    balance: {
+        type: Number,
+        required: true
     }
 })
 
@@ -50,7 +55,7 @@ userSchema.statics.signup = async function(firstName, lastName, email, password)
     const salt = await bcrypt.genSalt(10)                          // Generates a salt to be added at the end of every password
     const hash = await bcrypt.hash(password, salt)                 // Will hash the user's unique password
 
-    const user = await this.create({firstName, lastName, email, password: hash})        // This will create the user with their unique email and password
+    const user = await this.create({firstName, lastName, email, password: hash, balance: 0})        // This will create the user with their unique email and password
 
     return user                                                    // Returns the user to the source that called this method
 

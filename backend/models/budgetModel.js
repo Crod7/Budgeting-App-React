@@ -11,10 +11,6 @@ const budgetSchema = new Schema({
         type: Number,
         required: true
     },
-    //deposit:  {
-    //    type: Number,
-    //    required: true
-    //},
     user_id: {
         type: String,
         requried: true

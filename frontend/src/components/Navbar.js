@@ -7,7 +7,6 @@ import { useEffect } from "react"
 
 
 
-
 // This imports the active user if logged in, along with all their data(firstName, email, budget, etc...)
 
 const Navbar = (globalUser) => {
@@ -17,6 +16,7 @@ const Navbar = (globalUser) => {
         const fetchUsers = async () => {
             const response = await fetch(`/api/user/${user.email}`, {})
             const json = await response.json()
+            
             if (response.ok){
                 for (let i = 0; i < json.length; i++){
                     if (user.email === json[i].email){
@@ -34,6 +34,7 @@ const Navbar = (globalUser) => {
     // Here we set the global user that is currently logged in. We use this
     // to display information on the navbar
     if (activeUser != null){
+        console.log(activeUser)
         globalUser = activeUser
         //console.log(globalUser.firstName)             This verifies that the user is set to global
     }
@@ -53,7 +54,7 @@ const Navbar = (globalUser) => {
         <header>
             <div className="container">
                 <Link to="/">
-                    <h1>Hello World</h1>
+                    <h1>$: {globalUser.balance}</h1>
                 </Link>
                 <nav>
                     {user && (
