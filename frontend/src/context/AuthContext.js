@@ -15,7 +15,14 @@ export const authReducer = (state, action) => {
     }
 }
                                     // children represents what ever this function wraps inside itself
-export const AuthContextProvider = ({children}) => {
+
+
+
+
+
+
+
+                                    export const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(authReducer, {
         user: null                  // When a user loads up the website they are not logged in by default
     })

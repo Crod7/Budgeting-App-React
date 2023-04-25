@@ -1,9 +1,15 @@
+
+
 import { createContext, useReducer } from "react"
 
 export const BudgetsContext = createContext()
 
 export const budgetsReducer = (state, action) => {
     switch (action.type) {
+        case 'SET_USER':
+            return {
+                activeUser: action.payload
+            }
         case 'SET_BUDGETS':
             return {
                 budgets: action.payload
@@ -23,7 +29,8 @@ export const budgetsReducer = (state, action) => {
 
 export const BudgetsContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(budgetsReducer, {
-        budgets: null
+        budgets: null,
+        activeUser: null
     })
 
 
@@ -36,15 +43,3 @@ export const BudgetsContextProvider = ({children}) => {
         </BudgetsContext.Provider>
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
