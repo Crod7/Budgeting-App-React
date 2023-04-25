@@ -1,8 +1,8 @@
 import {Link} from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
-import { useAuthContext } from '../hooks/useAuthContext'
 
-import { useBudgetsContext } from "../hooks/useBudgetContext"
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useNavbarContext } from "../hooks/useNavbarContext"
 import { useEffect } from "react"
 
 
@@ -10,7 +10,7 @@ import { useEffect } from "react"
 // This imports the active user if logged in, along with all their data(firstName, email, budget, etc...)
 
 const Navbar = (globalUser) => {
-    const {dispatch, activeUser} = useBudgetsContext()
+    const {dispatchNavbar, activeUser} = useNavbarContext()
     const {user} = useAuthContext()
     useEffect(() => {
         const fetchUsers = async () => {
@@ -20,7 +20,7 @@ const Navbar = (globalUser) => {
             if (response.ok){
                 for (let i = 0; i < json.length; i++){
                     if (user.email === json[i].email){
-                        dispatch({type: 'SET_USER', payload: json[i]})
+                        dispatchNavbar({type: 'SET_USER', payload: json[i]})
                     }
                 }
             }
@@ -29,7 +29,7 @@ const Navbar = (globalUser) => {
         if (user && !activeUser){
             fetchUsers()
         }
-    }, [dispatch, user, globalUser, activeUser])
+    }, [dispatchNavbar, user, globalUser, activeUser])
 
     // Here we set the global user that is currently logged in. We use this
     // to display information on the navbar
@@ -49,13 +49,26 @@ const Navbar = (globalUser) => {
     const handleLogoutButton = () =>{
         logout()
     }
-
+/*
+    return (
+        <div className="home">
+            <div className="budgets">
+                {budgets && budgets.map((budget) => (
+                    <BudgetDetails key={budget._id} budget={budget}/>
+                ))}
+            </div>
+            <BudgetForm />
+        </div>
+    )
+*/
     return (
         <header>
             <div className="container">
-                <Link to="/">
-                    <h1>$: {globalUser.balance}</h1>
-                </Link>
+                {user && (
+                    <Link to="/">
+                        <h1>$: {globalUser.balance}</h1>
+                    </Link>
+                )}
                 <nav>
                     {user && (
                         <div>

@@ -43,7 +43,7 @@ const getBudget = async (req, res) => {
 
 // create a new budget
 const createBudget = async(req, res) => {
-    const {title, withdraw, deposit} = req.body                         //What this request will have as parameters
+    const {title, withdraw} = req.body                         //What this request will have as parameters
 
     // error handling messages on the form
     let emptyFields = []
@@ -54,21 +54,13 @@ const createBudget = async(req, res) => {
     if(!withdraw){
         emptyFields.push('withdraw')
     }
-    if(!deposit){
-        emptyFields.push('deposit')
-    }
     if(emptyFields.length > 0){
         return res.status(400).json ({error: 'Please fill in all the fields', emptyFields})
     }
-
-
-
-
-
     // add data to database, this is where we add directly to the database
     try{
         const user_id = req.user._id                                        
-        const budget = await Budget.create({title, withdraw, deposit, user_id})
+        const budget = await Budget.create({title, withdraw, user_id})
         res.status(200).json(budget)
     } catch (error){
         res.status(400).json({error: error.message})

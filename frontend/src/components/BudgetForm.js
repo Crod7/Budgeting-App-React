@@ -8,7 +8,7 @@ const BudgetForm = () => {
 
     const [title, setTitle] = useState('')
     const [withdraw, setWithdraw] = useState('')
-    const [deposit, setDeposit] = useState('')
+    //const [deposit, setDeposit] = useState('')
     const [error, setError] = useState(null)
 
     const handleTransactionSubmit = async (e) =>{
@@ -19,7 +19,7 @@ const BudgetForm = () => {
             return
         }
 
-        const budget = {title, withdraw, deposit}
+        const budget = {title, withdraw}
 
         const response = await fetch('/api/budgets', {
             method: 'POST',
@@ -37,7 +37,7 @@ const BudgetForm = () => {
         if (response.ok) {                      // If th entry is valid we clear all the text fields and error messages
             setTitle('')
             setWithdraw('')
-            setDeposit('')
+            //setDeposit('')
             setError(null)
             dispatch({type: 'CREATE_BUDGET', payload: json})
         }
@@ -62,14 +62,8 @@ const BudgetForm = () => {
                 value={withdraw}
                 //className={emptyFields.includes('withdraw') ? 'error' : ''}
             />
+            
 
-            <label>Deposit Amount:</label>
-            <input
-                type='number'
-                onChange={(e) => setDeposit(e.target.value)}
-                value={deposit}
-                //className={emptyFields.includes('deposit') ? 'error' : ''}
-            />
 
             <button>Add</button>
             {error && <div className = "error">{error}</div>}

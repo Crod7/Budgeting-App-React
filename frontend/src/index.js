@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import { BudgetsContextProvider } from './context/BudgetContext';
 import { AuthContextProvider } from './context/AuthContext';
+import { NavbarContextProvider } from './context/NavbarContext';
+
 
 
 
@@ -22,9 +24,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <BudgetsContextProvider>
-        <App />
-      </BudgetsContextProvider> 
+      <NavbarContextProvider>
+        <BudgetsContextProvider>
+          <App />
+        </BudgetsContextProvider> 
+      </NavbarContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );

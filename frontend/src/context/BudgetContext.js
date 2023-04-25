@@ -6,11 +6,6 @@ export const BudgetsContext = createContext()
 
 export const budgetsReducer = (state, action) => {
     switch (action.type) {
-        case 'SET_USER':
-            return {
-                //activeUser: state.activeUser.findOne((transaction) => transaction._id !== action.payload._id)
-                activeUser: action.payload
-            }
         case 'SET_BUDGETS':
             return {
                 budgets: action.payload
@@ -31,7 +26,6 @@ export const budgetsReducer = (state, action) => {
 export const BudgetsContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(budgetsReducer, {
         budgets: null,
-        activeUser: null
     })
 
 
