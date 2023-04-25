@@ -1,0 +1,25 @@
+[33m181989e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/main
+[33m181989e[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: reset: moving to origin/main
+[33m28c43ae[m HEAD@{2}: pull: Merge made by the 'ort' strategy.
+[33md119950[m HEAD@{3}: commit: Resolved a bug where the navbar wasn't updating when logging in to different users. Reolved a bug that when you log in, the nav bar flickers for a second before loading properly. Resolved a bug where user information wasn't updating unless page was reloaded...
+[33m2992d1e[m HEAD@{4}: commit: Resolved a bug where the navbar wasn't updating when logging in to different users. Reolved a bug that when you log in, the nav bar flickers for a second before loading properly. Resolved a bug where user information wasn't updating unless page was reloaded.
+[33m699f39f[m HEAD@{5}: commit: Added the User's balance to the nav bar. Modifications on User Model.
+[33m3584a01[m HEAD@{6}: commit: Worked on the Navbar.js file to make a get request to get user data. After that we set the user data as an object the Navbar could access to represent user information on the nav bar.
+[33m5594ef6[m HEAD@{7}: commit: Created new files to mamage the routes for obtaining User data. This data will include name, email, etc....
+[33m505e806[m HEAD@{8}: commit: Added a new page that takes users monthly bills. The user can enter their expenses into a variety of categories. The functionlity isn't complete, as of right now the use can visit the page when logged in from the Navbar. However the user cannot submit their information in a meaningful way, in the next update we will add functionality to this page.
+[33m83576d2[m HEAD@{9}: commit: Added first/last name fields when signing up. Modified the user objects to hold name of user in database.
+[33me137c9e[m HEAD@{10}: commit: Added functionality that allows individual users to have unique experiences. No users share data. Each user has their respective transactions.
+[33m2556003[m HEAD@{11}: commit: Added some code to allow logged in users to submit authorized requests to the backend. Fixed an incorrect line of code causing a bug.
+[33m25968dd[m HEAD@{12}: commit: Added middleware functionality that requires all users to authenticate their login tokens before accessing any routes in the program. Login/ Signup are now required to use app.
+[33m31704c8[m HEAD@{13}: commit: Added Login funtionality, added ability to remain logged in even if the page is closed.
+[33m956a75d[m HEAD@{14}: commit: Added a way to login and receive a previously created auth token.
+[33mb62b836[m HEAD@{15}: commit: Added functionality to log out the user. This is done by deleting the active token on the user.
+[33m3ca1fdb[m HEAD@{16}: commit: Added functionality to signup a user to the database however, the functionality only creates the new user but doesn't redirect them to the dashboard or use the token created correctly.
+[33mc62b659[m HEAD@{17}: commit: Created the login and signup forms.
+[33m72eafc0[m HEAD@{18}: commit: Implemented a new reducer file to handle login/ signup functionality on the backend.
+[33mb7e0dea[m HEAD@{19}: commit (merge): Implemented the foundation for the login functionality.
+[33m1bbd9ac[m HEAD@{20}: commit: Implemented the foundation for the login functionality.
+[33m2f6d9f2[m HEAD@{21}: commit (merge): Working on implementing a login token. The token functionality now creates a unique token for each user but is currenlty not used.
+[33mcb6ac26[m HEAD@{22}: commit: Working on implementing a login token. The token functionality now creates a unique token for each user but is currenlty not used.
+[33m52b0067[m HEAD@{23}: commit: Added Login/Signup functionality. The passwords are encrypted, and the email is checked to make sure it is valid using the VALIDATOR package. The passwords are encrypted with BCRYPT. Frontend functionality to represent Login/Signup is still needed, only Backend server has functionality so far.
+[33m907c4b5[m HEAD@{24}: commit: Added a new Controller, Model, And Route to setup the foundation for having users signup and login to the appliaction. Also added a little bit of css.
