@@ -18,7 +18,18 @@ const Setup = () => {
     const handleSubmit = async (e) =>{
         e.preventDefault()                                  // Disables the refresh of a page caused by submitting a form
         
-        await setup()
+        await setup(
+            income,
+            housingCost,
+            debtCost,
+            carCost,
+            phoneCost,
+            internetCost,
+            subscriptionCost,
+            insuranceCost,
+            utilityCost,
+            childcareCost
+        )
     }
 
     return (

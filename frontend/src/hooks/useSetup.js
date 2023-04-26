@@ -6,32 +6,64 @@ export const useSetup = () => {
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuthContext()
 
-    const setup = async (firstName, lastName, email, password) => {
-        setIsLoading(true)
+    const setup = async (
+        income,
+        housingCost,
+        debtCost,
+        carCost,
+        phoneCost,
+        internetCost,
+        subscriptionCost,
+        insuranceCost,
+        utilityCost,
+        childcareCost
+    ) => {
+        let total = (Number(income)) - (
+            (Number(housingCost)) +
+            (Number(debtCost)) +
+            (Number(carCost)) +
+            (Number(phoneCost)) +
+            (Number(internetCost)) +
+            (Number(subscriptionCost)) +
+            (Number(insuranceCost)) +
+            (Number(utilityCost)) +
+            (Number(childcareCost))
+        )
+        console.log(total)
+        console.log(typeof total)
+        /*setIsLoading(true)
         setError(null)
 
         const response = await fetch('/api/user/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({firstName, lastName, email, password})
+            body: JSON.stringify({
+                income,
+                housingCost,
+                debtCost,
+                carCost,
+                phoneCost,
+                internetCost,
+                subscriptionCost,
+                insuranceCost,
+                utilityCost,
+                childcareCost
+            })
         })
-        const json = await response.json()                  // Will return a json web token, or an error message
+        const json = await response.json()                 
 
         if (!response.ok) {
             setIsLoading(false)
             setError(json.error)
         }
         if (response.ok) {
-            // Save the user to local storage(This is the json web token with the email)
-            // This allows the user to remain logged in, even if they close the page
+            
             localStorage.setItem('user', JSON.stringify(json))
             
-            // Update the Auth Context
             dispatch({type: 'LOGIN', payload: json})
             
-            // Set loading state back to normal
             setIsLoading(false)
-        }
+        }*/
     }
 
     return { setup, isLoading, error}
