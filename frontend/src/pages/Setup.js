@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useSetup } from "../hooks/useSetup"
 
+
 const Setup = () => {
     const [income, setIncome] = useState('')
     const [housingCost, setHousingCost] = useState('')
@@ -12,6 +13,7 @@ const Setup = () => {
     const [insuranceCost, setInsuranceCost] = useState('')
     const [utilityCost, setUtilityCost] = useState('')
     const [childcareCost, setChildcareCost] = useState('')
+
 
     const {setup, error, isLoading} = useSetup()
     
