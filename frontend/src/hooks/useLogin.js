@@ -9,13 +9,19 @@ export const useLogin = () => {
     const { dispatchNavbar } = useNavbarContext()
 
     const login = async (email, password) => {
+        /**
+         * The isOnSetupPage will be added to the local storage so that the app can navigate to and
+         * from the Setup page. The navbar will either set this to true or false.
+         */
+        const isOnSetupPage = false
+
         setIsLoading(true)
         setError(null)
 
         const response = await fetch('/api/user/login', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({email, password})
+            body: JSON.stringify({email, password, isOnSetupPage})
         })
 
         const json = await response.json()                  // Will return a json web token, or an error message

@@ -49,18 +49,11 @@ const Navbar = (globalUser) => {
     const handleLogoutButton = () =>{
         logout()
     }
-/*
-    return (
-        <div className="home">
-            <div className="budgets">
-                {budgets && budgets.map((budget) => (
-                    <BudgetDetails key={budget._id} budget={budget}/>
-                ))}
-            </div>
-            <BudgetForm />
-        </div>
-    )
-*/
+    const handleSetupButton = () =>{
+        localStorage.setItem('user.isOnSetupPage', 'true')
+        console.log(localStorage.getItem('user'))
+    }
+
     return (
         <header>
             <div className="container">
@@ -74,8 +67,7 @@ const Navbar = (globalUser) => {
                         <div>
                             <span>Hello {globalUser.firstName}</span>
                             <button onClick={handleLogoutButton}>Log out</button>
-                            <Link to="/setup">Manage Monthly Bills</Link>
-
+                            <button onClick={handleSetupButton}>Manage Monthly Budget</button>
                         </div>
                     )}
                     {!user && (

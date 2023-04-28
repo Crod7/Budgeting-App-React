@@ -37,7 +37,7 @@ const {user} = useAuthContext()
               />
               <Route 
                 path="/setup"
-                element={user ? <Setup />: <Navigate to ="/"/>}    //Redirects the user to Monthly Bills Set Up Page.
+                element={(user && user.isOnSetupPage) ? <Setup />: <Navigate to ="/"/>}    //Redirects the user to Monthly Bills Set Up Page.
                 //element={<Setup />}    //Redirects the user to Monthly Bills Set Up Page.
 
               />
