@@ -19,14 +19,15 @@ const Navbar = (globalUser) => {
             
             if (response.ok){
                 for (let i = 0; i < json.length; i++){
+                    console.log(user.email)
                     if (user.email === json[i].email){
+                        console.log(json[i])
                         dispatchNavbar({type: 'SET_USER', payload: json[i]})
                     }
                 }
             }
         }
-
-        if (user && !activeUser){
+        if (user && (activeUser == null)){
             fetchUsers()
         }
     }, [dispatchNavbar, user, globalUser, activeUser])
@@ -34,7 +35,8 @@ const Navbar = (globalUser) => {
     // Here we set the global user that is currently logged in. We use this
     // to display information on the navbar
     if (activeUser != null){
-        console.log(activeUser)
+        //console.log(activeUser)
+        //console.log(user.isOnSetupPage)
         globalUser = activeUser
         //console.log(globalUser.firstName)             This verifies that the user is set to global
     }

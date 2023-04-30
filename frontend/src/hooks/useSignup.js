@@ -1,10 +1,14 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
+import { useNavbarContext } from './useNavbarContext'
+
 
 export const useSignup = () => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuthContext()
+    const { dispatchNavbar } = useNavbarContext()
+
 
     const signup = async (firstName, lastName, email, password) => {
         setIsLoading(true)
@@ -17,6 +21,12 @@ export const useSignup = () => {
         })
         const json = await response.json()                  // Will return a json web token, or an error message
 
+
+        //========================= This updates the user on the Navbar by making a GET request
+        const responseNavbar = await fetch(`/api/user/${email}`, {})
+        const jsonNavbar = await responseNavbar.json()
+        //========================
+
         if (!response.ok) {
             setIsLoading(false)
             setError(json.error)
@@ -28,6 +38,12 @@ export const useSignup = () => {
             
             // Update the Auth Context
             dispatch({type: 'LOGIN', payload: json})
+            // Update the Navbar Context
+            for (let i = 0; i < jsonNavbar.length; i++){
+                if (email === jsonNavbar[i].email){
+                    dispatchNavbar({type: 'UPDATE_NAVBAR', payload: jsonNavbar[i]})
+                }
+            }
             
             // Set loading state back to normal
             setIsLoading(false)
