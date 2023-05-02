@@ -1,22 +1,34 @@
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
-
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavbarContext } from "../hooks/useNavbarContext"
 import { useEffect } from "react"
 
 
-
-// This imports the active user if logged in, along with all their data(firstName, email, budget, etc...)
-
+/**
+ * Manages the navbar and all it's functionality. It also shows important user information.
+ * @param {*} globalUser used to set the current user to a variable to display to the end user.
+ * @returns the front-end depending on which button is selected from the navbar.
+ */
 const Navbar = (globalUser) => {
+    /**
+     * This allows us to update the navbar in realtime by making dispatch calls to the navbar context directly.
+     */
     const {dispatchNavbar, activeUser} = useNavbarContext()
+    /**
+     * We grab the localstorage user. This is the current user logged in. We only have their email but we
+     * can make a GET request using their email to grab the rest of the user's information.
+     */
     const {user} = useAuthContext()
+
+    /**
+     * Using the user from useAuthContext, we update the navbar's context with that user's information after making a GET request
+     * for the rest of their data.
+     */
     useEffect(() => {
         const fetchUsers = async () => {
             const response = await fetch(`/api/user/${user.email}`, {})
             const json = await response.json()
-            
             if (response.ok){
                 for (let i = 0; i < json.length; i++){
                     console.log(user.email)
@@ -32,30 +44,24 @@ const Navbar = (globalUser) => {
         }
     }, [dispatchNavbar, user, globalUser, activeUser])
 
-    // Here we set the global user that is currently logged in. We use this
-    // to display information on the navbar
+    /**
+     * We set the user.
+     */
     if (activeUser != null){
-        //console.log(activeUser)
-        //console.log(user.isOnSetupPage)
         globalUser = activeUser
-        //console.log(globalUser.firstName)             This verifies that the user is set to global
     }
 
-
-
-
-
-
+    /**
+     * We import the logout functionality so if the user selects the logout button on the navbar we can logout the user.
+     */
     const { logout } = useLogout()
-
     const handleLogoutButton = () =>{
         logout()
     }
-    const handleSetupButton = () =>{
-        localStorage.setItem('user.isOnSetupPage', 'true')
-        console.log(localStorage.getItem('user'))
-    }
 
+    /**
+     * Returns the current page being displayed to the front-end depending if the user is logged in or not.
+     */
     return (
         <header>
             <div className="container">
@@ -69,7 +75,7 @@ const Navbar = (globalUser) => {
                         <div>
                             <span>Hello {globalUser.firstName}</span>
                             <button onClick={handleLogoutButton}>Log out</button>
-                            <button onClick={handleSetupButton}>Manage Monthly Budget</button>
+                            <Link to='/setup' className='navButton'>Manage Monthly Budget</Link>
                         </div>
                     )}
                     {!user && (

@@ -1,7 +1,6 @@
 import { useAuthContext } from './useAuthContext'
 import { generateDateId } from '../functions/GenerateDateId'
 
-
 /**
  * The useSet up exports the setup fucntion called by the Setup page. Used in the creation
  * of a user's monthlyNetBalance document.
@@ -65,8 +64,12 @@ export const useSetup = () => {
                     console.log(currentUser._id)
                     console.log(totalNetBalance)
                     console.log(dateId)
-                    
-                    user.isOnSetupPage = false
+
+                    /**
+                     * Once the new document is created, we send the user back to the main page.
+                     */
+                    window.location.replace('http://localhost:3000/');
+
                 }
             }
         }
