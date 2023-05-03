@@ -1,8 +1,12 @@
+/**
+ * This page takes user input to calculate how much money the user has left after
+ * calculating monthly expenses.
+ */
+
 import { useState } from "react"
-import { useSetup } from "../hooks/useSetup"
-
-
-
+import { generateDateId } from '../functions/GenerateDateId'
+import { useAuthContext } from '../hooks/useAuthContext'
+import { useMonthlyNetBalanceContext } from '../hooks/useMonthlyNetBalanceContext'
 
 const Setup = () => {
     const [income, setIncome] = useState('')
@@ -16,28 +20,56 @@ const Setup = () => {
     const [utilityCost, setUtilityCost] = useState('')
     const [childcareCost, setChildcareCost] = useState('')
 
-
-    const {setup, error, isLoading} = useSetup()
+    const { user } = useAuthContext()
+    const { dispatch } = useMonthlyNetBalanceContext()
     
     const handleSubmit = async (e) =>{
-        e.preventDefault()                                  // Disables the refresh of a page caused by submitting a form
-        
-        await setup(
-            income,
-            housingCost,
-            debtCost,
-            carCost,
-            phoneCost,
-            internetCost,
-            subscriptionCost,
-            insuranceCost,
-            utilityCost,
-            childcareCost
-        )
+        /**
+         * Disables the refresh of a page caused by submitting a form.
+         */
+        e.preventDefault()
+        /**
+         * Gets the total money left after subtracting expenses.
+         */
+        const balance = (income - (
+            housingCost + debtCost + carCost + phoneCost + internetCost +
+            subscriptionCost + insuranceCost + utilityCost + childcareCost
+        ))
+        /**
+         * This grabs the year and month, then combines them to create a Date ID that will
+         * be used in filtering transactions for their respective months.
+         */
+        const dateId = generateDateId()
+
+        /**
+         * Makes a POST request to make the new monthlyNetBalance document.
+         */
+        const newNetMonthlyBalance = { balance, dateId}
+        const response = await fetch('/api/monthlyNetBalance', {
+            method: 'POST',
+            body: JSON.stringify(newNetMonthlyBalance),
+            headers: {
+                "Content-Type": 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+        const json = await response.json()
+        if (response.ok) {
+            dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+        }
+
+        /**
+         * Once the new document is created, we send the user back to the main page.
+         */
+        window.location.replace('http://localhost:3000/');
+
     }
 
     return (
-        // The classname is signup because we follow the same css format
+        /**
+         * This manages the front-end displaying many text fields for the user to fill.
+         * The classname is signup because we follow the same css format.
+         */
         <form className="signup" onSubmit={handleSubmit}>
             <h3>Let's get your budget set up!</h3>
 
@@ -115,8 +147,7 @@ const Setup = () => {
                 can vary from month to month, so it is better to report them as individual purchases as to have a more accurate 
                 reading of your budget.</h5>
             
-            <button disabled = {isLoading}>Complete</button>
-            {error && <div className="error">{error}</div>}
+            <button>Complete</button>
         </form>
     )
 }

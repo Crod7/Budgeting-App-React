@@ -43,8 +43,9 @@ const getAllMonthlyNetBalance = async (req, res) => {
 const createMonthlyNetBalance = async(req, res) => {
     const {balance, dateId} = req.body
     try{
-        const user_id = req.user._id                                        
+        const user_id = req.user._id                         
         const monthlyNetBalance = await MonthlyNetBalance.create({balance, dateId, user_id})
+        console.log(monthlyNetBalance)
         res.status(200).json(monthlyNetBalance)
     } catch (error){
         res.status(400).json({error: error.message})
