@@ -52,6 +52,17 @@ const createMonthlyNetBalance = async(req, res) => {
     }
 }
 
+/**
+ * Uses a GET request to get the monthlyNetBalance document by seraching for matching dateId.
+ */
+const getMonthlyNetBalanceByDateId = async (req, res) => {
+    const user_id = req.user._id
+
+
+    const monthlyNetBalance = await MonthlyNetBalance.find({ user_id }).sort({createdAt: -1})
+
+    res.status(200).json(monthlyNetBalance)
+}
 
 
 
@@ -98,5 +109,6 @@ const updateMonthlyNetBalance = async (req, res) => {
 module.exports = {
     createMonthlyNetBalance,
     getAllMonthlyNetBalance,
-    updateMonthlyNetBalance
+    updateMonthlyNetBalance,
+    getMonthlyNetBalanceByDateId
 }

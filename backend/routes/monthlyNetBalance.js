@@ -13,7 +13,8 @@ const MonthlyNetBalance = require('../models/monthlyNetBalanceModel')
 const {
     createMonthlyNetBalance,
     getAllMonthlyNetBalance,
-    updateMonthlyNetBalance
+    updateMonthlyNetBalance,
+    getMonthlyNetBalanceByDateId
 } = require('../controllers/monthlyNetBalanceController')
 
 /**
@@ -33,9 +34,9 @@ router.use(requireAuth)
 /**
  * Depending on the request, a function will be ran from the conrtoller.
  */
-router.get('/', getAllMonthlyNetBalance)                  // GET all monthlyNetBalance
-router.post('/', createMonthlyNetBalance)                  // POST a new monthlyNetBalance
-router.patch('/:id', updateMonthlyNetBalance)              // UPDATE a monthlyNetBalance
+router.get('/', getMonthlyNetBalanceByDateId)
+router.post('/', createMonthlyNetBalance)
+router.patch('/:id', updateMonthlyNetBalance)
 
 /**
  * We export to allow the program to use this.

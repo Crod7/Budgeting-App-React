@@ -1,6 +1,12 @@
 /**
+ * PURPOSE:
  * This page takes user input to calculate how much money the user has left after
  * calculating monthly expenses.
+ * We also make a GET request and a POST/PATCH request to manage monthlyNetBalance documents from the
+ * database.
+ * Any monthlyNetBalance document that has matching dateId's overwrites the previous one.
+ * We check this by first making a GET request, if we find something with the same dateId we make
+ * a PATCH request. If nothing is found we make a POST request.
  */
 
 import { useState } from "react"
@@ -9,6 +15,9 @@ import { useAuthContext } from '../hooks/useAuthContext'
 import { useMonthlyNetBalanceContext } from '../hooks/useMonthlyNetBalanceContext'
 
 const Setup = () => {
+    /**
+     * Import of variables.
+     */
     const [income, setIncome] = useState('')
     const [housingCost, setHousingCost] = useState('')
     const [debtCost, setDebtCost] = useState('')
@@ -19,10 +28,11 @@ const Setup = () => {
     const [insuranceCost, setInsuranceCost] = useState('')
     const [utilityCost, setUtilityCost] = useState('')
     const [childcareCost, setChildcareCost] = useState('')
-
     const { user } = useAuthContext()
     const { dispatch } = useMonthlyNetBalanceContext()
-    
+    /**
+     * When the submit button is pressed on the Setup page.
+     */
     const handleSubmit = async (e) =>{
         /**
          * Disables the refresh of a page caused by submitting a form.
@@ -42,26 +52,68 @@ const Setup = () => {
         const dateId = generateDateId()
 
         /**
-         * Makes a POST request to make the new monthlyNetBalance document.
+         * We make a GET request to retrieve all monthlyNetBalance documents associated with the current user.
+         * The request is placed inside the jsonChecked const which is an array holding all documents returned.
          */
-        const newNetMonthlyBalance = { balance, dateId}
-        const response = await fetch('/api/monthlyNetBalance', {
-            method: 'POST',
-            body: JSON.stringify(newNetMonthlyBalance),
+        const checked = await fetch (`/api/monthlyNetBalance`,{
+            method: 'GET',
             headers: {
                 "Content-Type": 'application/json',
                 'Authorization': `Bearer ${user.token}`
             }
         })
-        const json = await response.json()
-        if (response.ok) {
-            dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
-        }
+        const jsonChecked = await checked.json()
+        console.log(jsonChecked)
+        /**
+         * We iterate through the jsonChecked array and if the document's dateId at index i is equal to the dateId of the current
+         * month/year we replace that document. If no dateId matches the current dateId we create a new document. This is to
+         * ensure we only have one document per month as having multiple budgets for the same month would cause errors. 
+         */
+        for(let i = 0; i < jsonChecked.length; i++){
+            if (jsonChecked[i].dateId === dateId){
+                /**
+                 * A document does exist matching the dateId and user_id. Therefore,
+                 * makes a PATCH request to update the monthlyNetBalance document.
+                 */
+                const newNetMonthlyBalance = { balance, dateId }
+                const response = await fetch('/api/monthlyNetBalance', {
+                    method: 'POST',
+                    body: JSON.stringify(newNetMonthlyBalance),
+                    headers: {
+                        "Content-Type": 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                })
+                const json = await response.json()
+                if (response.ok) {
+                    dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+                }
+                //================================^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ TO BE MODIFIED
 
+            }else{
+                /**
+                 * No documents with the current dateId exists that belong to this user. Therefore,
+                 * makes a POST request to make the new monthlyNetBalance document.
+                 */
+                const newNetMonthlyBalance = { balance, dateId }
+                const response = await fetch('/api/monthlyNetBalance', {
+                    method: 'POST',
+                    body: JSON.stringify(newNetMonthlyBalance),
+                    headers: {
+                        "Content-Type": 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                })
+                const json = await response.json()
+                if (response.ok) {
+                    dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+                }
+            }
+        }
         /**
          * Once the new document is created, we send the user back to the main page.
          */
-        window.location.replace('http://localhost:3000/');
+        //window.location.replace('http://localhost:3000/');
 
     }
 
