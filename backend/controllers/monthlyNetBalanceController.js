@@ -55,12 +55,9 @@ const createMonthlyNetBalance = async(req, res) => {
 /**
  * Uses a GET request to get the monthlyNetBalance document by seraching for matching dateId.
  */
-const getMonthlyNetBalanceByDateId = async (req, res) => {
+const getMonthlyNetBalance = async (req, res) => {
     const user_id = req.user._id
-
-
     const monthlyNetBalance = await MonthlyNetBalance.find({ user_id }).sort({createdAt: -1})
-
     res.status(200).json(monthlyNetBalance)
 }
 
@@ -77,9 +74,9 @@ const updateMonthlyNetBalance = async (req, res) => {
      * Grabs the id parameter from the request and verifies that their is a document in the database
      * matching it.
      */
-    const {id} = req.param
+    const {id} = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error: 'No sucn monthlyNetBalance documents.'})
+        return res.status(404).json({error: 'No such monthlyNetBalance documents.'})
     }
 
     /**
@@ -108,7 +105,6 @@ const updateMonthlyNetBalance = async (req, res) => {
  */
 module.exports = {
     createMonthlyNetBalance,
-    getAllMonthlyNetBalance,
     updateMonthlyNetBalance,
-    getMonthlyNetBalanceByDateId
+    getMonthlyNetBalance
 }

@@ -41,9 +41,9 @@ const Setup = () => {
         /**
          * Gets the total money left after subtracting expenses.
          */
-        const balance = (income - (
-            housingCost + debtCost + carCost + phoneCost + internetCost +
-            subscriptionCost + insuranceCost + utilityCost + childcareCost
+        const balance = (Number(income) - (
+            Number(housingCost) + Number(debtCost) + Number(carCost) + Number(phoneCost) + Number(internetCost) +
+            Number(subscriptionCost) + Number(insuranceCost) + Number(utilityCost) + Number(childcareCost)
         ))
         /**
          * This grabs the year and month, then combines them to create a Date ID that will
@@ -63,7 +63,6 @@ const Setup = () => {
             }
         })
         const jsonChecked = await checked.json()
-        console.log(jsonChecked)
         /**
          * We iterate through the jsonChecked array and if the document's dateId at index i is equal to the dateId of the current
          * month/year we replace that document. If no dateId matches the current dateId we create a new document. This is to
@@ -74,11 +73,19 @@ const Setup = () => {
                 /**
                  * A document does exist matching the dateId and user_id. Therefore,
                  * makes a PATCH request to update the monthlyNetBalance document.
+                 * The update the document, we grab the documents _id (since it has a matching dateId
+                 * meaning it is unique).
                  */
-                const newNetMonthlyBalance = { balance, dateId }
-                const response = await fetch('/api/monthlyNetBalance', {
-                    method: 'POST',
-                    body: JSON.stringify(newNetMonthlyBalance),
+                console.log(typeof(balance))
+                const documentId = jsonChecked[i]._id
+                /**
+                 * Now we make the PATCH request.
+                 */
+                const response = await fetch(`/api/monthlyNetBalance/${documentId}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        "balance": balance 
+                    }),
                     headers: {
                         "Content-Type": 'application/json',
                         'Authorization': `Bearer ${user.token}`
@@ -86,10 +93,8 @@ const Setup = () => {
                 })
                 const json = await response.json()
                 if (response.ok) {
-                    dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+                    await dispatch({type: 'UPDATE_MONTHLYNETBALANCE', payload: json})
                 }
-                //================================^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ TO BE MODIFIED
-
             }else{
                 /**
                  * No documents with the current dateId exists that belong to this user. Therefore,
@@ -106,14 +111,37 @@ const Setup = () => {
                 })
                 const json = await response.json()
                 if (response.ok) {
-                    dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+                    await dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
                 }
+            }
+        }
+        /**
+         * There is a case that when the user has never made a monthlyNetBalance document before,
+         * the for loop above is skipped. This causes an error, as this means a user can only
+         * create a document if they've created a document in the past. To fix this error, we add
+         * a special "if" case stating that if this is the first monthlyNetBalance document the user has
+         * ever created, then run this POST request. Any future creations/ updates will be managed
+         * by the for loop.
+         */
+        if (jsonChecked.length === 0){
+            const newNetMonthlyBalance = { balance, dateId }
+            const response = await fetch('/api/monthlyNetBalance', {
+                method: 'POST',
+                body: JSON.stringify(newNetMonthlyBalance),
+                headers: {
+                    "Content-Type": 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json()
+            if (response.ok) {
+                await dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
             }
         }
         /**
          * Once the new document is created, we send the user back to the main page.
          */
-        //window.location.replace('http://localhost:3000/');
+    (window.location.replace('http://localhost:3000/'))
 
     }
 

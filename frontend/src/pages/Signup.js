@@ -1,3 +1,8 @@
+/**
+ * PURPOSE:
+ * Manages the Signup page, accepts a user's info and if the info is valid makes a requesst to the
+ * backend to create the new user.
+ */
 import { useState } from "react"
 import { useSignup } from "../hooks/useSignup"
 
@@ -8,12 +13,18 @@ const Signup = () => {
     const [password, setPassword] = useState('')
     const {signup, error, isLoading} = useSignup()
     
+    /**
+     * What happens when the user attempts to signup. The information is verified, and the email is checked
+     * to ensure no other account has the same email address.
+     */
     const handleSubmit = async (e) =>{
-        e.preventDefault()                                  // Disables the refresh of a page caused by submitting a form
-        
+        e.preventDefault()
         await signup(firstName, lastName, email, password)
     }
 
+    /**
+     * This is the form displayed to the user.
+     */
     return (
         <form className="signup" onSubmit={handleSubmit}>
             <h3>Sign up</h3>
