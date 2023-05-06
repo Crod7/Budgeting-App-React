@@ -1,6 +1,8 @@
 import { useState } from "react"
 import { useBudgetsContext } from "../hooks/useBudgetContext"
 import { useAuthContext } from "../hooks/useAuthContext"
+import { generateDateId } from '../functions/GenerateDateId'
+
 
 const BudgetForm = () => {
     const { dispatch } = useBudgetsContext()
@@ -18,8 +20,8 @@ const BudgetForm = () => {
             setError('You must be logged in.')
             return
         }
-
-        const budget = {title, withdraw}
+        const dateId = generateDateId()
+        const budget = {title, withdraw, dateId}
 
         const response = await fetch('/api/budgets', {
             method: 'POST',
