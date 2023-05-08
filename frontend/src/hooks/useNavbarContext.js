@@ -5,7 +5,7 @@ export const useNavbarContext = () => {
     const context = useContext(NavbarContext)
 
     if (!context){
-        throw Error('useBudgetsContext must be used inside an BudgetsContextProvider')
+        throw Error('useNavbarContext must be used inside an NavbarContextProvider')
     }
 
     return context

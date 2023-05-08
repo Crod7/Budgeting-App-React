@@ -1,9 +1,9 @@
 import { useAuthContext } from "./useAuthContext"
-import { useBudgetsContext } from "./useBudgetContext"
+import { useTransactionsContext } from "./useTransactionContext"
 
 export const useLogout = () => {
     const { dispatch } = useAuthContext()
-    const { dispatch: transactionsDispatch } = useBudgetsContext()
+    const { dispatch: transactionsDispatch } = useTransactionsContext()
 
     const logout = () => {
         // removes user from storage
@@ -12,7 +12,7 @@ export const useLogout = () => {
 
         // dispatch logout action
         dispatch({type: 'LOGOUT'})
-        transactionsDispatch({type: 'SET_BUDGETS', payload: null})
+        transactionsDispatch({type: 'SET_TRANSACTIONS', payload: null})
     }
 
     return {logout}

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { BudgetsContextProvider } from './context/BudgetContext';
+import { TransactionsContextProvider } from './context/TransactionContext';
 import { AuthContextProvider } from './context/AuthContext';
 import { NavbarContextProvider } from './context/NavbarContext';
 import { MonthlyNetBalanceContextProvider } from './context/MonthlyNetBalanceContext';
@@ -27,9 +27,9 @@ root.render(
     <AuthContextProvider>
       <MonthlyNetBalanceContextProvider>
         <NavbarContextProvider>
-          <BudgetsContextProvider>
+          <TransactionsContextProvider>
             <App />
-          </BudgetsContextProvider> 
+          </TransactionsContextProvider> 
         </NavbarContextProvider>
       </MonthlyNetBalanceContextProvider>
     </AuthContextProvider>

@@ -4,10 +4,10 @@
  * as a form to enter new transactions.
  */
 import { useEffect } from "react"
-import { useBudgetsContext } from "../hooks/useBudgetContext"
+import { useTransactionsContext } from "../hooks/useTransactionContext"
 import { useAuthContext } from "../hooks/useAuthContext"
-import BudgetDetails from '../components/BudgetDetails'
-import BudgetForm from '../components/BudgetForm'
+import TransactionDetails from '../components/TransactionDetails'
+import TransactionForm from '../components/TransactionForm'
 
 
 
@@ -17,21 +17,21 @@ import BudgetForm from '../components/BudgetForm'
  * @returns the frontend user interface. Including the transactions and transaction form.
  */
 const Home = () => {
-    const {budgets, dispatch} = useBudgetsContext()
+    const {transactions, dispatch} = useTransactionsContext()
     const {user} = useAuthContext()
 
     useEffect(() => {
         /**
          * This loads up the transactions for this month.
          */
-        const fetchBudgets = async () => {
-            const response = await fetch('/api/budgets', {
+        const fetchTransactions = async () => {
+            const response = await fetch('/api/transactions', {
                 headers: {'Authorization': `Bearer ${user.token}`},
             })
             const json = await response.json()
             
             if (response.ok){
-                dispatch({type: 'SET_BUDGETS', payload: json})
+                dispatch({type: 'SET_TRANSACTIONS', payload: json})
             }
         }
         /**
@@ -56,7 +56,7 @@ const Home = () => {
          * If a user is logged in, retreive their data on transactions and user information.
          */
         if (user){
-            fetchBudgets()
+            fetchTransactions()
             fetchUsers()
         }
     }, [dispatch, user])
@@ -66,12 +66,12 @@ const Home = () => {
      */
     return (
         <div className="home">
-            <div className="budgets">
-                {budgets && budgets.map((budget) => (
-                    <BudgetDetails key={budget._id} budget={budget}/>
+            <div className="transactions">
+                {transactions && transactions.map((transaction) => (
+                    <TransactionDetails key={transaction._id} transaction={transaction}/>
                 ))}
             </div>
-            <BudgetForm />
+            <TransactionForm />
         </div>
     )
 }

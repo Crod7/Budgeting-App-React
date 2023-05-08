@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 /**
  * List of routes.
  */
-app.use('/api/budgets', transactionRoutes) // (path, route object)
+app.use('/api/transactions', transactionRoutes) // (path, route object)
 app.use('/api/user', userRoutes) // (path, route object)
 app.use('/api/monthlyNetBalance', monthlyNetBalanceRoutes)
 /**
