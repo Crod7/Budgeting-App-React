@@ -29,7 +29,7 @@ const Setup = () => {
     const [utilityCost, setUtilityCost] = useState('')
     const [childcareCost, setChildcareCost] = useState('')
     const { user } = useAuthContext()
-    const { dispatch } = useMonthlyNetBalanceContext()
+    const { dispatchMonthlyNetBalance } = useMonthlyNetBalanceContext()
     /**
      * When the submit button is pressed on the Setup page.
      */
@@ -93,7 +93,7 @@ const Setup = () => {
                 })
                 const json = await response.json()
                 if (response.ok) {
-                    await dispatch({type: 'UPDATE_MONTHLYNETBALANCE', payload: json})
+                    await dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json})
                 }
             }else{
                 /**
@@ -111,7 +111,7 @@ const Setup = () => {
                 })
                 const json = await response.json()
                 if (response.ok) {
-                    await dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+                    await dispatchMonthlyNetBalance({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
                 }
             }
         }
@@ -135,7 +135,7 @@ const Setup = () => {
             })
             const json = await response.json()
             if (response.ok) {
-                await dispatch({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
+                await dispatchMonthlyNetBalance({type: 'CREATE_MONTHLYNETBALANCE', payload: json})
             }
         }
         /**

@@ -15,6 +15,10 @@ export const navbarReducer = (state, action) => {
             return {
                 activeUser: action.payload
             }
+        case 'UPDATE_MONTHLYNETBALANCE':
+            return {
+                monthlyNetBalance: action.payload
+            }
         default:
             return state
     }
@@ -22,7 +26,8 @@ export const navbarReducer = (state, action) => {
 
 export const NavbarContextProvider = ({children}) => {
     const [state, dispatchNavbar] = useReducer(navbarReducer, {
-        activeUser: null
+        activeUser: null,
+        monthlyNetBalance: null
     })
 
 

@@ -2,19 +2,24 @@ import { Link } from 'react-router-dom'
 import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavbarContext } from "../hooks/useNavbarContext"
-import { useEffect } from "react"
+import { useMonthlyNetBalanceContext } from "../hooks/useMonthlyNetBalanceContext"
 
+import { useEffect, useRef } from "react"
+import { generateDateId } from '../functions/GenerateDateId'
 
 /**
  * Manages the navbar and all it's functionality. It also shows important user information.
  * @param {*} globalUser used to set the current user to a variable to display to the end user.
  * @returns the front-end depending on which button is selected from the navbar.
  */
-const Navbar = (globalUser) => {
+const Navbar = (globalUser, currentBalance) => {
+    const currentBalanceRef = useRef(null);
+    console.log(currentBalance.balance)
     /**
      * This allows us to update the navbar in realtime by making dispatch calls to the navbar context directly.
      */
     const {dispatchNavbar, activeUser} = useNavbarContext()
+    const { dispatchMonthlyNetBalance, monthlyNetBalance } = useMonthlyNetBalanceContext()
     /**
      * We grab the localstorage user. This is the current user logged in. We only have their email but we
      * can make a GET request using their email to grab the rest of the user's information.
@@ -39,10 +44,45 @@ const Navbar = (globalUser) => {
                 }
             }
         }
+        const fetchMonthlyNetBalance = async () => {
+            const currentDateId = generateDateId()
+            
+            const response = await fetch(`/api/monthlyNetBalance/`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            })
+            const json = await response.json()
+            let check = 1
+            if (response.ok){
+                if (check = 1){
+                for (let i = 0; i < json.length; i++){
+                    if (currentDateId === json[i].dateId){
+                        //currentBalance = json[i].balance 
+                        //console.log(currentBalance)
+                        console.log(json[i])
+                        dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json[i]})
+                        check = 2
+                        //currentBalanceRef.current = json[i].balance 
+                        //console.log(currentBalanceRef.current)
+                    }
+                }
+                }
+            }
+        }
         if (user && (activeUser == null)){
             fetchUsers()
+            if ( currentBalance.balance == null){
+                fetchMonthlyNetBalance()
+                currentBalance.balance = monthlyNetBalance
+            }
         }
-    }, [dispatchNavbar, user, globalUser, activeUser])
+
+
+    }, [ user, globalUser, activeUser, currentBalanceRef.current])
+    //currentBalance, dispatchMonthlyNetBalance, dispatchNavbar, monthlyNetBalance
 
     /**
      * We set the user.
@@ -50,6 +90,11 @@ const Navbar = (globalUser) => {
     if (activeUser != null){
         globalUser = activeUser
     }
+    if (monthlyNetBalance != null){
+            currentBalance = monthlyNetBalance
+
+    }
+
 
     /**
      * We import the logout functionality so if the user selects the logout button on the navbar we can logout the user.
@@ -67,7 +112,7 @@ const Navbar = (globalUser) => {
             <div className="container">
                 {user && (
                     <Link to="/">
-                        <h1>$: {globalUser.balance}</h1>
+                        <h1>$: {currentBalance.balance}</h1>
                     </Link>
                 )}
                 <nav>

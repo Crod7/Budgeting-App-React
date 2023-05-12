@@ -21,7 +21,7 @@ export const monthlyNetBalanceReducer = (state, action) => {
 }
 
 export const MonthlyNetBalanceContextProvider = ({children}) => {
-    const [state, dispatch] = useReducer(monthlyNetBalanceReducer, {
+    const [state, dispatchMonthlyNetBalance] = useReducer(monthlyNetBalanceReducer, {
         monthlyNetBalance: [],
     })
 
@@ -32,7 +32,7 @@ export const MonthlyNetBalanceContextProvider = ({children}) => {
      * the context will effect the entire program.
      */
     return (
-        <MonthlyNetBalanceContext.Provider value={{...state, dispatch}}>
+        <MonthlyNetBalanceContext.Provider value={{...state, dispatchMonthlyNetBalance}}>
             {children}
         </MonthlyNetBalanceContext.Provider>
     )

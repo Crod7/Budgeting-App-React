@@ -1,19 +1,19 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import { useNavbarContext } from './useNavbarContext'
+import { generateDateId } from '../functions/GenerateDateId'
+import { useMonthlyNetBalanceContext } from './useMonthlyNetBalanceContext'
 
 export const useLogin = () => {
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuthContext()
     const { dispatchNavbar } = useNavbarContext()
+    const { dispatchMonthlyNetBalance } = useMonthlyNetBalanceContext()
+    const { user } = useAuthContext()
 
     const login = async (email, password) => {
-        /**
-         * The isOnSetupPage will be added to the local storage so that the app can navigate to and
-         * from the Setup page. The navbar will either set this to true or false.
-         */
-        const isOnSetupPage = false
+
 
         setIsLoading(true)
         setError(null)
@@ -49,7 +49,37 @@ export const useLogin = () => {
                 if (email === jsonNavbar[i].email){
                     dispatchNavbar({type: 'UPDATE_NAVBAR', payload: jsonNavbar[i]})
                 }
-            }            
+            }
+            //============================
+            let currentUserToSetNavbar
+            const responseUser = await fetch(`/api/user/${email}`, {})
+            const jsonUser = await responseUser.json()
+            if (responseUser.ok){
+                for (let i = 0; i < jsonUser.length; i++){
+                    if (email === jsonUser[i].email){
+                        currentUserToSetNavbar = jsonUser[i]
+                    }
+                }
+            }
+            const currentDateId = generateDateId()
+            const response2 = await fetch(`/api/monthlyNetBalance/`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": 'application/json',
+                    'Authorization': `Bearer ${json.token}`
+                }
+            })
+            const json2 = await response2.json()
+            if (response2.ok){
+                for (let i = 0; i < json2.length; i++){
+                    if (currentDateId === json2[i].dateId){
+                        console.log(json2[i])
+                        dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json2[i]})
+
+                    }
+                }
+            }
+            
             // Set loading state back to normal
             setIsLoading(false)
         }
