@@ -8,6 +8,7 @@ import { useAuthContext } from './useAuthContext'
 import { useNavbarContext } from './useNavbarContext'
 import { generateDateId } from '../functions/GenerateDateId'
 import { useMonthlyNetBalanceContext } from './useMonthlyNetBalanceContext'
+import { useMonthlyExpenseContext } from './useMonthlyExpenseContext'
 /**
  * This is the function that will be called when the login button is pressed. It attempts to find
  * a user and validate their information.
@@ -18,6 +19,7 @@ export const useLogin = () => {
     const { dispatch } = useAuthContext()
     const { dispatchNavbar } = useNavbarContext()
     const { dispatchMonthlyNetBalance } = useMonthlyNetBalanceContext()
+    const { dispatchMonthlyExpense } = useMonthlyExpenseContext()
 
     const login = async (email, password) => {
         setIsLoading(true)
@@ -76,6 +78,29 @@ export const useLogin = () => {
                     }
                 }
             }
+            /**
+             * Makes sure the navbar updates to the correct balance on login.
+             * This part of the code adds up all current transactions for this user at this month. 
+             * It is used later to subtract the user's total balance and all transactions to give
+             * the user the remaining amount after each new transaction is added.
+             */
+            const fetchTransactions = async () => {
+                const currentDateId = generateDateId()
+                const responseTransactions = await fetch('/api/transactions', {
+                    headers: {'Authorization': `Bearer ${json.token}`},
+                })
+                const jsonTransactions = await responseTransactions.json()
+                if (responseTransactions.ok){
+                    let totalExpense = 0
+                    for (let i = 0; i < jsonTransactions.length; i++)
+                        if (currentDateId === jsonTransactions[i].dateId){
+                            totalExpense = totalExpense + jsonTransactions[i].withdraw
+                        }
+                    const monthlyExpensePayload = {balance:totalExpense}
+                    dispatchMonthlyExpense({type: "UPDATE_MONTHLYEXPENSE", payload: monthlyExpensePayload})
+                }
+            }
+            fetchTransactions()
 
             /**
              * Save the user to local storage(This is the json web token with the email).

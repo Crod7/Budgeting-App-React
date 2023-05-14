@@ -14,7 +14,7 @@ export const monthlyNetBalanceReducer = (state, action) => {
         case 'UPDATE_MONTHLYNETBALANCE':
             return {
                 monthlyNetBalance: action.payload
-                }
+            }
         default:
             return state
     }

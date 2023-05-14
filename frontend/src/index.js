@@ -6,7 +6,7 @@ import { TransactionsContextProvider } from './context/TransactionContext';
 import { AuthContextProvider } from './context/AuthContext';
 import { NavbarContextProvider } from './context/NavbarContext';
 import { MonthlyNetBalanceContextProvider } from './context/MonthlyNetBalanceContext';
-
+import { MonthlyExpenseContextProvider } from './context/MonthlyExpenseContext';
 
 
 
@@ -26,11 +26,13 @@ root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <MonthlyNetBalanceContextProvider>
-        <NavbarContextProvider>
-          <TransactionsContextProvider>
-            <App />
-          </TransactionsContextProvider> 
-        </NavbarContextProvider>
+        <MonthlyExpenseContextProvider>
+          <NavbarContextProvider>
+            <TransactionsContextProvider>
+              <App />
+            </TransactionsContextProvider> 
+          </NavbarContextProvider>
+        </MonthlyExpenseContextProvider>
       </MonthlyNetBalanceContextProvider>
     </AuthContextProvider>
   </React.StrictMode>

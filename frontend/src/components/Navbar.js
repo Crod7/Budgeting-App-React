@@ -3,8 +3,9 @@ import { useLogout } from '../hooks/useLogout'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useNavbarContext } from "../hooks/useNavbarContext"
 import { useMonthlyNetBalanceContext } from "../hooks/useMonthlyNetBalanceContext"
+import { useMonthlyExpenseContext } from '../hooks/useMonthlyExpenseContext'
 
-import { useEffect, useRef } from "react"
+import { useEffect, useState } from "react"
 import { generateDateId } from '../functions/GenerateDateId'
 
 /**
@@ -12,14 +13,18 @@ import { generateDateId } from '../functions/GenerateDateId'
  * @param {*} globalUser used to set the current user to a variable to display to the end user.
  * @returns the front-end depending on which button is selected from the navbar.
  */
-const Navbar = (globalUser, currentBalance) => {
-    const currentBalanceRef = useRef(null);
-    console.log(currentBalance.balance)
+const Navbar = (globalUser, currentBalance, currentExpense, totalExpense) => {
+    const [total, setTotal] = useState(0)
+    const currentDateId = generateDateId()
+
+
+    //console.log(currentBalance.balance)
     /**
      * This allows us to update the navbar in realtime by making dispatch calls to the navbar context directly.
      */
-    const {dispatchNavbar, activeUser} = useNavbarContext()
+    const { dispatchNavbar, activeUser } = useNavbarContext()
     const { dispatchMonthlyNetBalance, monthlyNetBalance } = useMonthlyNetBalanceContext()
+    const { dispatchMonthlyExpense, monthlyExpense } = useMonthlyExpenseContext()
     /**
      * We grab the localstorage user. This is the current user logged in. We only have their email but we
      * can make a GET request using their email to grab the rest of the user's information.
@@ -31,22 +36,28 @@ const Navbar = (globalUser, currentBalance) => {
      * for the rest of their data.
      */
     useEffect(() => {
+        /**
+         * This makes a request using the user from the useAuthContext. The purpose of this is to retrieve all of the user's data
+         * found in the database to be used in the navbar.
+         */
         const fetchUsers = async () => {
             const response = await fetch(`/api/user/${user.email}`, {})
             const json = await response.json()
             if (response.ok){
                 for (let i = 0; i < json.length; i++){
-                    console.log(user.email)
+                    //console.log(user.email)
                     if (user.email === json[i].email){
-                        console.log(json[i])
+                        //console.log(json[i])
                         dispatchNavbar({type: 'SET_USER', payload: json[i]})
                     }
                 }
             }
         }
-        const fetchMonthlyNetBalance = async () => {
-            const currentDateId = generateDateId()
-            
+        /**
+         * Using the user retrieved from the database, we use their token and the current dateId to grab the corresponding
+         * monthlyNetBalance document. This holds their budget information for this month and it is displayed on the navbar.
+         */
+        const fetchMonthlyNetBalance = async () => {            
             const response = await fetch(`/api/monthlyNetBalance/`, {
                 method: 'GET',
                 headers: {
@@ -57,8 +68,11 @@ const Navbar = (globalUser, currentBalance) => {
             const json = await response.json()
             let check = 1
             if (response.ok){
-                if (check = 1){
+                if (check === 1){
                 for (let i = 0; i < json.length; i++){
+                    /**
+                     * If the monthlyNetBalance is found we update the navbar to display it.
+                     */
                     if (currentDateId === json[i].dateId){
                         console.log(json[i])
                         dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json[i]})
@@ -68,17 +82,39 @@ const Navbar = (globalUser, currentBalance) => {
                 }
             }
         }
+        /**
+         * We need to get all transactions from this month belonging to the user, so that we can subtract it from the 
+         * monthlyNetBalance to display how much is left in the user's budget for this month.
+         */
+        const fetchTransactions = async () => {
+            const responseTransactions = await fetch('/api/transactions', {
+                headers: {'Authorization': `Bearer ${user.token}`},
+            })
+            const jsonTransactions = await responseTransactions.json()
+            if (responseTransactions.ok){
+                let totalExpense = 0
+                for (let i = 0; i < jsonTransactions.length; i++)
+                    if (currentDateId === jsonTransactions[i].dateId){
+                        totalExpense = totalExpense + jsonTransactions[i].withdraw
+                    }
+                const monthlyExpensePayload = {balance:totalExpense}
+                dispatchMonthlyExpense({type: "UPDATE_MONTHLYEXPENSE", payload: monthlyExpensePayload})
+            }
+        }
         if (user && (activeUser == null)){
             fetchUsers()
             if ( currentBalance.balance == null){
                 fetchMonthlyNetBalance()
-                currentBalance.balance = monthlyNetBalance
+                fetchTransactions()
+                currentBalance.balance = monthlyNetBalance                
             }
         }
 
 
-    }, [ user, globalUser, activeUser, currentBalanceRef.current])
-    //currentBalance, dispatchMonthlyNetBalance, dispatchNavbar, monthlyNetBalance
+    }, [user, globalUser, activeUser, currentBalance, currentExpense, dispatchNavbar, monthlyExpense,
+        currentDateId, dispatchMonthlyExpense, dispatchMonthlyNetBalance, monthlyNetBalance, total])
+    //user, globalUser, activeUser, currentBalance, currentExpense, dispatchNavbar, monthlyExpense,
+    //currentDateId, dispatchMonthlyExpense, dispatchMonthlyNetBalance, monthlyNetBalance
 
     /**
      * We set the user.
@@ -87,11 +123,14 @@ const Navbar = (globalUser, currentBalance) => {
         globalUser = activeUser
     }
     if (monthlyNetBalance != null){
+        //console.log(monthlyExpense)
         currentBalance = monthlyNetBalance
+        //console.log(currentBalance)
 
     }
-
-
+    if (monthlyExpense != null){
+        currentExpense = monthlyExpense
+    }
     /**
      * We import the logout functionality so if the user selects the logout button on the navbar we can logout the user.
      */
@@ -108,7 +147,7 @@ const Navbar = (globalUser, currentBalance) => {
             <div className="container">
                 {user && (
                     <Link to="/">
-                        <h1>$: {currentBalance.balance}</h1>
+                        <h1>$: {monthlyNetBalance.balance - monthlyExpense.balance}</h1>
                     </Link>
                 )}
                 <nav>

@@ -2,11 +2,12 @@ import { useState } from "react"
 import { useTransactionsContext } from "../hooks/useTransactionContext"
 import { useAuthContext } from "../hooks/useAuthContext"
 import { generateDateId } from '../functions/GenerateDateId'
-
+import { useMonthlyExpenseContext } from "../hooks/useMonthlyExpenseContext"
 
 const TransactionForm = () => {
     const { dispatch } = useTransactionsContext()
     const { user } = useAuthContext()
+    const { dispatchMonthlyExpense } = useMonthlyExpenseContext()
 
     const [title, setTitle] = useState('')
     const [withdraw, setWithdraw] = useState('')
@@ -40,7 +41,33 @@ const TransactionForm = () => {
             setWithdraw('')
             setError(null)
             dispatch({type: 'CREATE_TRANSACTION', payload: json})
+
+            /**
+             * Adding a new transaction updates the total remaining balance.
+             * This part of the code adds up all current transactions for this user at this month. 
+             * It is used later to subtract the user's total balance and all transactions to give
+             * the user the remaining amount after each new transaction is added.
+             */
+            const fetchTransactions = async () => {
+                const currentDateId = generateDateId()
+                const responseTransactions = await fetch('/api/transactions', {
+                    headers: {'Authorization': `Bearer ${user.token}`},
+                })
+                const jsonTransactions = await responseTransactions.json()
+                if (responseTransactions.ok){
+                    let totalExpense = 0
+                    for (let i = 0; i < jsonTransactions.length; i++)
+                        if (currentDateId === jsonTransactions[i].dateId){
+                            totalExpense = totalExpense + jsonTransactions[i].withdraw
+                        }
+                    const monthlyExpensePayload = {balance:totalExpense}
+                    dispatchMonthlyExpense({type: "UPDATE_MONTHLYEXPENSE", payload: monthlyExpensePayload})
+                }
+            }
+            fetchTransactions()
+            //============================
         }
+
     }
 
     return(
