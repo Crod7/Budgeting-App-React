@@ -60,13 +60,9 @@ const Navbar = (globalUser, currentBalance) => {
                 if (check = 1){
                 for (let i = 0; i < json.length; i++){
                     if (currentDateId === json[i].dateId){
-                        //currentBalance = json[i].balance 
-                        //console.log(currentBalance)
                         console.log(json[i])
                         dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json[i]})
                         check = 2
-                        //currentBalanceRef.current = json[i].balance 
-                        //console.log(currentBalanceRef.current)
                     }
                 }
                 }
@@ -91,7 +87,7 @@ const Navbar = (globalUser, currentBalance) => {
         globalUser = activeUser
     }
     if (monthlyNetBalance != null){
-            currentBalance = monthlyNetBalance
+        currentBalance = monthlyNetBalance
 
     }
 
