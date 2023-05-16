@@ -5,7 +5,7 @@ import { useNavbarContext } from "../hooks/useNavbarContext"
 import { useMonthlyNetBalanceContext } from "../hooks/useMonthlyNetBalanceContext"
 import { useMonthlyExpenseContext } from '../hooks/useMonthlyExpenseContext'
 
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { generateDateId } from '../functions/GenerateDateId'
 
 /**
@@ -13,12 +13,9 @@ import { generateDateId } from '../functions/GenerateDateId'
  * @param {*} globalUser used to set the current user to a variable to display to the end user.
  * @returns the front-end depending on which button is selected from the navbar.
  */
-const Navbar = (globalUser, currentBalance, currentExpense, totalExpense) => {
-    const [total, setTotal] = useState(0)
+const Navbar = (globalUser, currentBalance, currentExpense) => {
     const currentDateId = generateDateId()
 
-
-    //console.log(currentBalance.balance)
     /**
      * This allows us to update the navbar in realtime by making dispatch calls to the navbar context directly.
      */
@@ -112,7 +109,7 @@ const Navbar = (globalUser, currentBalance, currentExpense, totalExpense) => {
 
 
     }, [user, globalUser, activeUser, currentBalance, currentExpense, dispatchNavbar, monthlyExpense,
-        currentDateId, dispatchMonthlyExpense, dispatchMonthlyNetBalance, monthlyNetBalance, total])
+        currentDateId, dispatchMonthlyExpense, dispatchMonthlyNetBalance, monthlyNetBalance])
     //user, globalUser, activeUser, currentBalance, currentExpense, dispatchNavbar, monthlyExpense,
     //currentDateId, dispatchMonthlyExpense, dispatchMonthlyNetBalance, monthlyNetBalance
 

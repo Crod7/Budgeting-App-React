@@ -12,6 +12,8 @@ import { useMonthlyExpenseContext } from './useMonthlyExpenseContext'
 /**
  * This is the function that will be called when the login button is pressed. It attempts to find
  * a user and validate their information.
+ * It is important that we update the context in the correct order to prevent a flickering
+ * number bug. Monthly Expense -> Monthly Balance -> User. In this order we prevent all bugs.
  */
 export const useLogin = () => {
     const [error, setError] = useState(null)
@@ -55,6 +57,29 @@ export const useLogin = () => {
          */
         if (response.ok) {
             /**
+             * Makes sure the navbar updates to the correct balance on login.
+             * This part of the code adds up all current transactions for this user at this month. 
+             * It is used later to subtract the user's total balance and all transactions to give
+             * the user the remaining amount after each new transaction is added.
+             */
+            const fetchTransactions = async () => {
+                const currentDateId = generateDateId()
+                const responseTransactions = await fetch('/api/transactions', {
+                    headers: {'Authorization': `Bearer ${json.token}`},
+                })
+                const jsonTransactions = await responseTransactions.json()
+                if (responseTransactions.ok){
+                    let totalExpense = 0
+                    for (let i = 0; i < jsonTransactions.length; i++)
+                        if (currentDateId === jsonTransactions[i].dateId){
+                            totalExpense = totalExpense + jsonTransactions[i].withdraw
+                        }
+                    const monthlyExpensePayload = {balance:totalExpense}
+                    dispatchMonthlyExpense({type: "UPDATE_MONTHLYEXPENSE", payload: monthlyExpensePayload})
+                }
+            }
+            await fetchTransactions()
+            /**
              * This part gets the current dateId and uses it to grab the user's current monthlyNetBalance
              * document from the database. The monthlyNetBalance context must be updated before the user context
              * to resolve the flicker glitch(Where information of another user is displayed before
@@ -78,29 +103,6 @@ export const useLogin = () => {
                     }
                 }
             }
-            /**
-             * Makes sure the navbar updates to the correct balance on login.
-             * This part of the code adds up all current transactions for this user at this month. 
-             * It is used later to subtract the user's total balance and all transactions to give
-             * the user the remaining amount after each new transaction is added.
-             */
-            const fetchTransactions = async () => {
-                const currentDateId = generateDateId()
-                const responseTransactions = await fetch('/api/transactions', {
-                    headers: {'Authorization': `Bearer ${json.token}`},
-                })
-                const jsonTransactions = await responseTransactions.json()
-                if (responseTransactions.ok){
-                    let totalExpense = 0
-                    for (let i = 0; i < jsonTransactions.length; i++)
-                        if (currentDateId === jsonTransactions[i].dateId){
-                            totalExpense = totalExpense + jsonTransactions[i].withdraw
-                        }
-                    const monthlyExpensePayload = {balance:totalExpense}
-                    dispatchMonthlyExpense({type: "UPDATE_MONTHLYEXPENSE", payload: monthlyExpensePayload})
-                }
-            }
-            fetchTransactions()
 
             /**
              * Save the user to local storage(This is the json web token with the email).
