@@ -97,11 +97,12 @@ export const useLogin = () => {
             if (response2.ok){
                 for (let i = 0; i < json2.length; i++){
                     if (currentDateId === json2[i].dateId){
-                        console.log(json2[i])
                         dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json2[i]})
 
                     }
                 }
+            }else{
+                dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: {balance: 0}})
             }
 
             /**

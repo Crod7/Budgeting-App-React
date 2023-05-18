@@ -63,19 +63,20 @@ const Navbar = (globalUser, currentBalance, currentExpense) => {
                 }
             })
             const json = await response.json()
+            //console.log(json)
             let check = 1
             if (response.ok){
                 if (check === 1){
-                for (let i = 0; i < json.length; i++){
-                    /**
-                     * If the monthlyNetBalance is found we update the navbar to display it.
-                     */
-                    if (currentDateId === json[i].dateId){
-                        console.log(json[i])
-                        dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json[i]})
-                        check = 2
+                    for (let i = 0; i < json.length; i++){
+                        /**
+                         * If the monthlyNetBalance is found we update the navbar to display it.
+                         */
+                        if (currentDateId === json[i].dateId){
+                            //console.log(json[i])
+                            dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json[i]})
+                            check = 2
+                        }
                     }
-                }
                 }
             }
         }

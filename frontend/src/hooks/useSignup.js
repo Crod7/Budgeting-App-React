@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import { useNavbarContext } from './useNavbarContext'
+import { useMonthlyNetBalanceContext } from './useMonthlyNetBalanceContext'
 
 
 export const useSignup = () => {
@@ -8,6 +9,7 @@ export const useSignup = () => {
     const [isLoading, setIsLoading] = useState(null)
     const { dispatch } = useAuthContext()
     const { dispatchNavbar } = useNavbarContext()
+    const { dispatchMonthlyNetBalance } = useMonthlyNetBalanceContext()
 
 
     const signup = async (firstName, lastName, email, password) => {
@@ -47,6 +49,8 @@ export const useSignup = () => {
             
             // Set loading state back to normal
             setIsLoading(false)
+            dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: {balance: 0}})
+
         }
     }
 

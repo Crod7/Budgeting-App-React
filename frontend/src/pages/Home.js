@@ -21,6 +21,7 @@ const Home = () => {
     const {user} = useAuthContext()
 
     useEffect(() => {
+        
         /**
          * This loads up the transactions for this month.
          */
