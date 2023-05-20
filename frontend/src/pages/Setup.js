@@ -8,7 +8,7 @@
  * We check this by first making a GET request, if we find something with the same dateId we make
  * a PATCH request. If nothing is found we make a POST request.
  */
-
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import { generateDateId } from '../functions/GenerateDateId'
 import { useAuthContext } from '../hooks/useAuthContext'
@@ -18,6 +18,7 @@ const Setup = () => {
     /**
      * Import of variables.
      */
+    const navigate = useNavigate()
     const [income, setIncome] = useState('')
     const [housingCost, setHousingCost] = useState('')
     const [debtCost, setDebtCost] = useState('')
@@ -139,10 +140,31 @@ const Setup = () => {
             }
         }
         /**
+         * Using the user retrieved from the database, we use their token and the current dateId to grab the corresponding
+         * monthlyNetBalance document. This holds their budget information for this month and it is displayed on the navbar.
+         */
+        const response = await fetch(`/api/monthlyNetBalance/`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": 'application/json',
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+        const json = await response.json()
+        if (response.ok){
+            for (let i = 0; i < json.length; i++){
+                /**
+                 * If the monthlyNetBalance is found we update the navbar to display it.
+                 */
+                if (dateId === json[i].dateId){
+                    dispatchMonthlyNetBalance({type: 'UPDATE_MONTHLYNETBALANCE', payload: json[i]})
+                }
+            }
+        }
+        /**
          * Once the new document is created, we send the user back to the main page.
          */
-    (window.location.replace('http://localhost:3000/'))
-
+        navigate('/')
     }
 
     return (

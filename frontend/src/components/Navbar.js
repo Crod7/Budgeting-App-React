@@ -14,14 +14,15 @@ import { generateDateId } from '../functions/GenerateDateId'
  * @returns the front-end depending on which button is selected from the navbar.
  */
 const Navbar = (globalUser, currentBalance, currentExpense) => {
-    const currentDateId = generateDateId()
-
     /**
      * This allows us to update the navbar in realtime by making dispatch calls to the navbar context directly.
      */
     const { dispatchNavbar, activeUser } = useNavbarContext()
     const { dispatchMonthlyNetBalance, monthlyNetBalance } = useMonthlyNetBalanceContext()
     const { dispatchMonthlyExpense, monthlyExpense } = useMonthlyExpenseContext()
+    const currentDateId = generateDateId()
+
+
     /**
      * We grab the localstorage user. This is the current user logged in. We only have their email but we
      * can make a GET request using their email to grab the rest of the user's information.
@@ -63,7 +64,6 @@ const Navbar = (globalUser, currentBalance, currentExpense) => {
                 }
             })
             const json = await response.json()
-            //console.log(json)
             let check = 1
             if (response.ok){
                 if (check === 1){
