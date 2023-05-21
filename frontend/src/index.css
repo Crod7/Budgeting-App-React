@@ -5,14 +5,16 @@
 :root {
   --primary: #1aac83;
   --error: #e7195a;
+  --backgroundMain: rgb(177, 167, 255);
+  --backgroundSecondary: #9274ff;
 }
 body {
-  background: #f1f1f1;
+  background: var(--backgroundMain);
   margin: 0;
   font-family: "Poppins";
 }
 header {
-  background: #fff;
+  background: var(--backgroundSecondary);
 }
 header .container {
   max-width: 1400px;
@@ -35,7 +37,7 @@ header a {
 /* homepage */
 .home {
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr 2fr;
   gap: 100px;
 }
 .transaction-details {
@@ -44,7 +46,7 @@ header a {
   margin: 20px auto;
   padding: 20px;
   position: relative;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.65);
 }
 .transaction-details h4 {
   margin: 0 0 10px 0;
@@ -68,6 +70,15 @@ header a {
 }
 
 /* transaction form */
+.transaction-form{
+  background: var(--backgroundSecondary);
+  padding: 10px 100px 10px 100px;
+  margin-top: 18px;
+  min-width: 200px;
+  max-height: 400px;
+  box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.65);
+  border-radius: 4px;
+}
 label, input {
   display: block;
 }

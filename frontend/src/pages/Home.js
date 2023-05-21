@@ -72,7 +72,9 @@ const Home = () => {
                     <TransactionDetails key={transaction._id} transaction={transaction}/>
                 ))}
             </div>
-            <TransactionForm />
+            <div className="transaction-form">
+                <TransactionForm />
+            </div>
         </div>
     )
 }
