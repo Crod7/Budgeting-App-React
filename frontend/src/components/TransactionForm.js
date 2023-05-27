@@ -65,7 +65,6 @@ const TransactionForm = () => {
                 }
             }
             fetchTransactions()
-            //============================
         }
 
     }
@@ -79,7 +78,6 @@ const TransactionForm = () => {
                 type='text'
                 onChange={(e) => setTitle(e.target.value)}
                 value={title}
-                //className={emptyFields.includes('title') ? 'error' : ''}
             />
             
             <label>Amount:</label>
@@ -87,7 +85,6 @@ const TransactionForm = () => {
                 type='number'
                 onChange={(e) => setWithdraw(e.target.value)}
                 value={withdraw}
-                //className={emptyFields.includes('withdraw') ? 'error' : ''}
             />
             
 

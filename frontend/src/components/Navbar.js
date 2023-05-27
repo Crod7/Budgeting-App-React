@@ -145,7 +145,7 @@ const Navbar = (globalUser, currentBalance, currentExpense) => {
             <div className="container">
                 {user && (
                     <Link to="/">
-                        <h1>$: {monthlyNetBalance.balance - monthlyExpense.balance}</h1>
+                        <h1 className='balanceAmount'>$: {monthlyNetBalance.balance - monthlyExpense.balance}</h1>
                     </Link>
                 )}
                 <nav>

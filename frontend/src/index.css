@@ -17,6 +17,7 @@ header {
   background: var(--backgroundSecondary);
 }
 header .container {
+  background-color: rgb(111, 111, 255);
   max-width: 1400px;
   margin: 0 auto;
   padding: 10px 20px;
@@ -94,6 +95,8 @@ input {
 form button {
   background: var(--primary);
   border: 0;
+  border: solid;
+  border-color: black;
   color: #fff;
   padding: 10px;
   font-family: "Poppins";
@@ -112,6 +115,9 @@ input.error{
   border: 1px solid var(--error)
 }
 /* navbar */
+.balanceAmount{
+  color: black;
+}
 nav {
   display: flex;
   align-items: center;
@@ -149,4 +155,76 @@ form.signup, form.login {
   padding: 20px;
   background: #fff;
   border-radius: 4px;
+}
+
+/* This manages the main screen when on mobile.*/
+@media only screen and (max-width: 767px) {
+  /* Adds padding to application so that we can place the transaction form in it's place.*/
+  .pages{
+    margin-top: 100px;
+    padding-top: 140px;
+  }  
+  /* Displays remaining balance on navbar.*/
+  .balanceAmount{
+    color: black;
+    font-size: 24px;
+  }
+  /* Removes padding so that the buttons fit on the navbar.*/
+  header .container {
+    position: fixed;
+    width: 100%;
+    background-color: rgb(111, 111, 255);
+    z-index: 5;
+    top: 0%;
+    padding: 0px 0px;
+    padding-right: 4px;
+  }
+  /* Manages the logout button.*/
+  header button {
+    font-size: 10px;
+  }
+  /* Manages the monthly budget button.*/
+  header .navButton {
+    font-size: 10px;
+  }
+  /* Manages the 'Hello {user}' on navbar. This removes it in mobile view.*/
+  header span {
+    font-size: 0px;
+  }
+  /* Manages the add new transaction form.*/
+  .create h3{
+    font-size: 16px;
+    text-align: left;
+    margin: 0px;
+  }
+  .create input{
+    width: 50%;
+  }
+  .transaction-form{
+    grid-template-columns: 1fr;
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    width: 100%;
+    max-width: 100vw;
+    max-height: 200px;
+    padding-bottom: 14px;
+  }
+  input {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .create button {
+    position: fixed;
+    border: solid;
+    border-color: black;
+    top: 160px;
+    left: 6px;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  /* Strechtes the transactions to meet 100% of the screen size.*/
+  .home {
+    grid-template-columns: 1fr;
+  }
 }
