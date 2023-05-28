@@ -26,7 +26,7 @@ header .container {
   justify-content: space-between;
 }
 header a {
-  color: #333;
+  color: #000000;
   text-decoration: none;
 }
 .pages{
@@ -93,15 +93,15 @@ input {
   box-sizing: border-box;
 }
 form button {
-  background: var(--primary);
-  border: 0;
-  border: solid;
-  border-color: black;
-  color: #fff;
-  padding: 10px;
-  font-family: "Poppins";
-  border-radius: 4px;
-  cursor: pointer;
+    background: #fff;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: "Poppins";
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 10px;
 }
 div.error {
   padding: 10px;
@@ -150,12 +150,21 @@ nav button {
 
 /* auth forms */
 form.signup, form.login {
+  position: absolute;
+  width: 80%;
+  top: 15%;
+  left: 10%;
+  right: 10%;
   max-width: 400px;
   margin: 40px auto;
   padding: 20px;
-  background: #fff;
+  background: var(--backgroundSecondary);
   border-radius: 4px;
 }
+form.signup button, form.login button {
+  margin: 8px;
+}
+
 
 /* This manages the main screen when on mobile.*/
 @media only screen and (max-width: 767px) {
@@ -217,14 +226,19 @@ form.signup, form.login {
   .create button {
     position: fixed;
     border: solid;
-    border-color: black;
     top: 160px;
     left: 6px;
-    padding: 16px;
     border-radius: 8px;
   }
   /* Strechtes the transactions to meet 100% of the screen size.*/
   .home {
     grid-template-columns: 1fr;
   }
+/* auth forms */
+form.signup, form.login {
+  position: absolute;
+  width: 100%;
+  top: 15%;
+  left: 0%;
+}
 }
