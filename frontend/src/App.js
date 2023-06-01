@@ -3,11 +3,11 @@ import { useAuthContext } from './hooks/useAuthContext'
 
 
 //pages and componenets
-import Home from './pages/Home'
+import Home from './components/Home'
 import Navbar from './components/Navbar'
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-import Setup from './pages/Setup'
+import Signup from './components/Signup'
+import Login from './components/Login'
+import Setup from './components/Setup'
 
 
 
@@ -26,20 +26,19 @@ const {user} = useAuthContext()
                 // Do we have a user? TRUE : FALSE
                 // If true go to Home
                 //                        If false go to Login
-                element={user ? <Home />: <Navigate to ="/login" />} //Redirects the user depending on login status
+                element={user ? <Home />: <Navigate to ="/login" />}
               />
               <Route 
                 path="/login"
-                element={!user ? <Login />: <Navigate to ="/" />}    //Redirects the user depending on login status
+                element={!user ? <Login />: <Navigate to ="/" />}
               />
               <Route 
                 path="/signup"
-                element={!user ? <Signup />: <Navigate to ="/"/>}    //Redirects the user depending on login status
+                element={!user ? <Signup />: <Navigate to ="/"/>}
               />
               <Route 
                 path="/setup"
-                element={(user) ? <Setup />: <Navigate to ="/"/>}    //Redirects the user to Monthly Bills Set Up Page.
-                //element={<Setup />}    //Redirects the user to Monthly Bills Set Up Page.
+                element={(user) ? <Setup />: <Navigate to ="/"/>}
 
               />
             </Routes>
