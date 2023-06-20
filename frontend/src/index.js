@@ -10,19 +10,20 @@ import { MonthlyExpenseContextProvider } from './context/MonthlyExpenseContext';
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
 if (process.env.NODE_ENV === 'production') disableReactDevTools()
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <MonthlyNetBalanceContextProvider>
-    <AuthContextProvider>
-        <MonthlyExpenseContextProvider>
-          <NavbarContextProvider>
-            <TransactionsContextProvider>
-              <App />
-            </TransactionsContextProvider> 
-          </NavbarContextProvider>
-        </MonthlyExpenseContextProvider>
-    </AuthContextProvider>
+      <AuthContextProvider>
+          <MonthlyExpenseContextProvider>
+            <NavbarContextProvider>
+              <TransactionsContextProvider>
+                <App />
+              </TransactionsContextProvider> 
+            </NavbarContextProvider>
+          </MonthlyExpenseContextProvider>
+      </AuthContextProvider>
     </MonthlyNetBalanceContextProvider>
   </React.StrictMode>
 );

@@ -8,13 +8,34 @@
  */
 require('dotenv').config()
 
+
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 const express = require('express')
 const mongoose = require('mongoose')
+const credentials = require('./middleware/credentials')
+const cookieParser = require('cookie-parser')
+
+
 
 /**
  * Starts the express app.
  */
 const app = express()
+// Handle options credentials check BEFORE CORS
+// and fetch cookies credentials requirement
+app.use(credentials)
+// Cross Origin Resource Sharing
+app.use(cors(corsOptions))
+// built-in middleware to handle urlencoded data, form data:
+app.use(express.urlencoded({extended: false}))
+// built-in middleware for json
+app.use(express.json())
+// middleware for cookies
+app.use(cookieParser())
+
+
+
 
 /**
  * The routes that can be called in the program.

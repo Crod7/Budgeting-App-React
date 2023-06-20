@@ -77,7 +77,6 @@ const Setup = () => {
                  * The update the document, we grab the documents _id (since it has a matching dateId
                  * meaning it is unique).
                  */
-                console.log(typeof(balance))
                 const documentId = jsonChecked[i]._id
                 /**
                  * Now we make the PATCH request.
