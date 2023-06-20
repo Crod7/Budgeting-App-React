@@ -54,7 +54,7 @@ const signupUser = async (req, res) => {
 
         const token = createToken(user._id)                                 // This creates a token for this user id
 
-        res.status(200).json({firstName, lastName, email, token, isOnSetupPage})
+        res.status(200).json({firstName, lastName, email, token})
     } catch (error) {
         res.status(400).json({error: error.message})
 
