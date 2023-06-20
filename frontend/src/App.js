@@ -1,7 +1,6 @@
 import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 import { useAuthContext } from './hooks/useAuthContext'
 
-
 //pages and componenets
 import Home from './components/Home'
 import Navbar from './components/Navbar'
@@ -9,11 +8,8 @@ import Signup from './components/Signup'
 import Login from './components/Login'
 import Setup from './components/Setup'
 
-
-
 function App() {
 const {user} = useAuthContext()
-
 
   return (
     <div className="App">
@@ -39,7 +35,6 @@ const {user} = useAuthContext()
               <Route 
                 path="/setup"
                 element={(user) ? <Setup />: <Navigate to ="/"/>}
-
               />
             </Routes>
           </div>
@@ -47,5 +42,4 @@ const {user} = useAuthContext()
     </div>
   );
 }
-
 export default App;

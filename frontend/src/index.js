@@ -7,25 +7,14 @@ import { AuthContextProvider } from './context/AuthContext';
 import { NavbarContextProvider } from './context/NavbarContext';
 import { MonthlyNetBalanceContextProvider } from './context/MonthlyNetBalanceContext';
 import { MonthlyExpenseContextProvider } from './context/MonthlyExpenseContext';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+if (process.env.NODE_ENV === 'production') disableReactDevTools()
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <MonthlyNetBalanceContextProvider>
     <AuthContextProvider>
-      <MonthlyNetBalanceContextProvider>
         <MonthlyExpenseContextProvider>
           <NavbarContextProvider>
             <TransactionsContextProvider>
@@ -33,8 +22,8 @@ root.render(
             </TransactionsContextProvider> 
           </NavbarContextProvider>
         </MonthlyExpenseContextProvider>
-      </MonthlyNetBalanceContextProvider>
     </AuthContextProvider>
+    </MonthlyNetBalanceContextProvider>
   </React.StrictMode>
 );
 

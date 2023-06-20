@@ -5,20 +5,25 @@ export const MonthlyNetBalanceContext = createContext()
 /**
  * This creates a new monthlyNetBalance document when called from a dispatch.
  */
-export const monthlyNetBalanceReducer = (state, action) => {
+export const monthlyNetBalanceReducer = (state = { monthlyNetBalance: [] }, action) => {
     switch (action.type) {
-        case 'CREATE_MONTHLYNETBALANCE':
-            return {
-                monthlyNetBalance: [action.payload, ...state.monthlyNetBalance]
-            }
-        case 'UPDATE_MONTHLYNETBALANCE':
-            return {
-                monthlyNetBalance: action.payload
-            }
-        default:
-            return state
+      case 'CREATE_MONTHLYNETBALANCE':
+        const newNetBalance = action.payload;
+        return {
+          monthlyNetBalance: [...state.monthlyNetBalance, newNetBalance]
+        };
+      case 'UPDATE_MONTHLYNETBALANCE':
+        return {
+          monthlyNetBalance: action.payload
+        };
+      default:
+        return state;
     }
-}
+  };
+  
+  
+  
+  
 
 export const MonthlyNetBalanceContextProvider = ({children}) => {
     const [state, dispatchMonthlyNetBalance] = useReducer(monthlyNetBalanceReducer, {
