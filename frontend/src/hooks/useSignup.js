@@ -13,7 +13,7 @@ export const useSignup = () => {
         setIsLoading(true)
         setError(null)
 
-        const response = await fetch('/api/user/signup', {
+        const response = await fetch('https://budgetingreactapp-api.onrender.com/api/user/signup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({firstName, lastName, email, password})
@@ -31,7 +31,7 @@ export const useSignup = () => {
             // Creates an initial budget for the new user for this current month.
             const newNetMonthlyBalance = { balance: 0, dateId: genDateId }
 
-            const initResponse = await fetch('/api/monthlyNetBalance', {
+            const initResponse = await fetch('https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance', {
                 method: 'POST',
                 body: JSON.stringify(newNetMonthlyBalance),
                 headers: {

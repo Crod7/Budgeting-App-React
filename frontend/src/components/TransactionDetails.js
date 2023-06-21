@@ -16,7 +16,7 @@ const TransactionDetails = ({transaction}) => {
             return
         }
         //                          We call the api, with the transaction's id
-        const response = await fetch('/api/transactions/' + transaction._id, {
+        const response = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions/' + transaction._id, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${user.token}`
@@ -35,7 +35,7 @@ const TransactionDetails = ({transaction}) => {
              */
             const fetchTransactions = async () => {
                 const currentDateId = generateDateId()
-                const responseTransactions = await fetch('/api/transactions', {
+                const responseTransactions = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions', {
                     headers: {'Authorization': `Bearer ${user.token}`},
                 })
                 const jsonTransactions = await responseTransactions.json()

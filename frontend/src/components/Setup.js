@@ -56,7 +56,7 @@ const Setup = () => {
          * We make a GET request to retrieve all monthlyNetBalance documents associated with the current user.
          * The request is placed inside the jsonChecked const which is an array holding all documents returned.
          */
-        const checked = await fetch (`/api/monthlyNetBalance`,{
+        const checked = await fetch (`https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance`,{
             method: 'GET',
             headers: {
                 "Content-Type": 'application/json',
@@ -81,7 +81,7 @@ const Setup = () => {
                 /**
                  * Now we make the PATCH request.
                  */
-                const response = await fetch(`/api/monthlyNetBalance/${documentId}`, {
+                const response = await fetch(`https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance/${documentId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         "balance": balance 
@@ -101,7 +101,7 @@ const Setup = () => {
                  * makes a POST request to make the new monthlyNetBalance document.
                  */
                 const newNetMonthlyBalance = { balance, dateId }
-                const response = await fetch('/api/monthlyNetBalance', {
+                const response = await fetch('https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance', {
                     method: 'POST',
                     body: JSON.stringify(newNetMonthlyBalance),
                     headers: {
@@ -125,7 +125,7 @@ const Setup = () => {
          */
         if (jsonChecked.length === 0){
             const newNetMonthlyBalance = { balance, dateId }
-            const response = await fetch('/api/monthlyNetBalance', {
+            const response = await fetch('https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance', {
                 method: 'POST',
                 body: JSON.stringify(newNetMonthlyBalance),
                 headers: {
@@ -142,7 +142,7 @@ const Setup = () => {
          * Using the user retrieved from the database, we use their token and the current dateId to grab the corresponding
          * monthlyNetBalance document. This holds their budget information for this month and it is displayed on the navbar.
          */
-        const response = await fetch(`/api/monthlyNetBalance/`, {
+        const response = await fetch(`https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance/`, {
             method: 'GET',
             headers: {
                 "Content-Type": 'application/json',

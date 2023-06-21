@@ -31,7 +31,7 @@ export const useLogin = () => {
          * Logs in and is used in creating the json web token. If the login is invalid it will return an error message.
          * @json is the actual web token.
          */
-        const response = await fetch('/api/user/login', {
+        const response = await fetch('https://budgetingreactapp-api.onrender.com/api/user/login', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({email, password})
@@ -42,7 +42,7 @@ export const useLogin = () => {
          * Using the email used to login, we fetch the user with the corresponding email. Later we will update the navbar context
          * with this @jsonNavbar because it holds the current user.
          */
-        const responseNavbar = await fetch(`/api/user/${email}`, {})
+        const responseNavbar = await fetch(`https://budgetingreactapp-api.onrender.com/api/user/${email}`, {})
         const jsonNavbar = await responseNavbar.json()
 
         /**
@@ -64,7 +64,7 @@ export const useLogin = () => {
              */
             const fetchTransactions = async () => {
                 const currentDateId = generateDateId()
-                const responseTransactions = await fetch('/api/transactions', {
+                const responseTransactions = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions', {
                     headers: {'Authorization': `Bearer ${json.token}`},
                 })
                 const jsonTransactions = await responseTransactions.json()
@@ -86,7 +86,7 @@ export const useLogin = () => {
              * flickering into the current user's information).
              */
             const currentDateId = generateDateId()
-            const response2 = await fetch(`/api/monthlyNetBalance/`, {
+            const response2 = await fetch(`https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance/`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',

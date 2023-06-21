@@ -26,7 +26,7 @@ const Home = () => {
          * This loads up the transactions for this month.
          */
         const fetchTransactions = async () => {
-            const response = await fetch('/api/transactions', {
+            const response = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions', {
                 headers: {'Authorization': `Bearer ${user.token}`},
             })
             const json = await response.json()
@@ -40,7 +40,7 @@ const Home = () => {
          * a call to the backend to retreive the latest data on the current user.
          */
         const fetchUsers = async () => {
-            const response = await fetch(`/api/user/${user.email}`, {
+            const response = await fetch(`https://budgetingreactapp-api.onrender.com/api/user/${user.email}`, {
                 headers: {'Authorization': `Bearer ${user.token}`},
             })
             const json = await response.json()

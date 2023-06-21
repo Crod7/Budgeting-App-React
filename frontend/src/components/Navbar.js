@@ -39,7 +39,7 @@ const Navbar = (globalUser, currentBalance, currentExpense) => {
          * found in the database to be used in the navbar.
          */
         const fetchUsers = async () => {
-            const response = await fetch(`/api/user/${user.email}`, {})
+            const response = await fetch(`https://budgetingreactapp-api.onrender.com/api/user/${user.email}`, {})
             const json = await response.json()
             if (response.ok){
                 for (let i = 0; i < json.length; i++){
@@ -56,7 +56,7 @@ const Navbar = (globalUser, currentBalance, currentExpense) => {
          * monthlyNetBalance document. This holds their budget information for this month and it is displayed on the navbar.
          */
         const fetchMonthlyNetBalance = async () => {            
-            const response = await fetch(`/api/monthlyNetBalance/`, {
+            const response = await fetch(`https://budgetingreactapp-api.onrender.com/api/monthlyNetBalance/`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": 'application/json',
@@ -85,7 +85,7 @@ const Navbar = (globalUser, currentBalance, currentExpense) => {
          * monthlyNetBalance to display how much is left in the user's budget for this month.
          */
         const fetchTransactions = async () => {
-            const responseTransactions = await fetch('/api/transactions', {
+            const responseTransactions = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions', {
                 headers: {'Authorization': `Bearer ${user.token}`},
             })
             const jsonTransactions = await responseTransactions.json()

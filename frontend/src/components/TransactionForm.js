@@ -23,7 +23,7 @@ const TransactionForm = () => {
         const dateId = generateDateId()
         const transaction = {title, withdraw, dateId}
 
-        const response = await fetch('/api/transactions', {
+        const response = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions', {
             method: 'POST',
             body: JSON.stringify(transaction),
             headers: {
@@ -50,7 +50,7 @@ const TransactionForm = () => {
              */
             const fetchTransactions = async () => {
                 const currentDateId = generateDateId()
-                const responseTransactions = await fetch('/api/transactions', {
+                const responseTransactions = await fetch('https://budgetingreactapp-api.onrender.com/api/transactions', {
                     headers: {'Authorization': `Bearer ${user.token}`},
                 })
                 const jsonTransactions = await responseTransactions.json()
