@@ -5,6 +5,7 @@ First, clone the repo.
     Inside the folder there are two more folders inside it called '''frontend''' and '''backend'''.  
 
 Next, open the cloned repo in your code editor(Visual Studio Code) and install dependencies.  
+
     Inside the code editor open up the terminal and navigate to the frontend directory.  
     ```
     cd frontend
@@ -25,8 +26,10 @@ Next, open the cloned repo in your code editor(Visual Studio Code) and install d
 Finally, create a `.env` file inside the backend folder.  
     Enter the following information or your own `MongoDB_URI` and `SECRET`  
     ```
-    PORT=5500  
-    MONGO_URI=mongodb+srv://admin:admin@bdgtdb.oqc9a6e.mongodb.net/?retryWrites=true&w=majority  
+    PORT=5500
+
+    MONGO_URI=mongodb+srv://admin:admin@bdgtdb.oqc9a6e.mongodb.net/?retryWrites=true&w=majority
+
     SECRET=ye1y072ey7201ey9y18ey98uhew71h9e8w9h11
     ```  
 
@@ -49,9 +52,10 @@ Next, open up the frontend in the second terminal.
     npm run start
     ```  
 
-    the application should be up and running.  
+The application should be up and running.  
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.  
+
 
 
 ## Check out the deployment on Vercel  
