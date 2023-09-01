@@ -1,7 +1,7 @@
 ## Getting Started, Setting up on local machine
 
 First, clone the repo.  
-    The file cloned is called "OnlineDatabaseGui".  
+    The folder cloned is called "OnlineDatabaseGui".  
     Inside the folder there are two more folders inside it called 'frontend' and 'backend'.  
 
 Next, open the cloned repo in your code editor(Visual Studio Code) and install dependencies.  
