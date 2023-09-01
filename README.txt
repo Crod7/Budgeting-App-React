@@ -1,2 +1,0 @@
-Title: Online Database Gui
-Purpose: The purpose of this program is to create an online open source user interface that will allow any user to use an online mySql database for their personal use. The interface will request log-in credintials and the user will be able to manipulate their own database.
