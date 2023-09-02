@@ -1,8 +1,7 @@
 ## Getting Started, Setting up on local machine
 
 First, clone the repo.  
-    The folder cloned is called "OnlineDatabaseGui".  
-    Inside the folder there are two more folders inside it called 'frontend' and 'backend'.  
+    Inside the cloned folder there are two more folders inside it called 'frontend' and 'backend'.  
 
 Next, open the cloned repo in your code editor(Visual Studio Code) and install dependencies.  
 
@@ -40,7 +39,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 
 
-## Check out the deployment on Vercel  
+## Check out the deployment on Render  
 
 Link to deployment [https://budgetingreactapp.onrender.com/](https://budgetingreactapp.onrender.com/).  
 
